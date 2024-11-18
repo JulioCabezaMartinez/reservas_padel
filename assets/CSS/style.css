@@ -1,3 +1,23 @@
-main{
+main {
     width: 80vw !important;
+}
+
+
+/* Estilo para el botón cuando se hace clic o se mantiene presionado */
+.btn-outline-primary:active,.btn-outline-primary:focus {
+    background-color: #0d6efd;
+    /* Color de fondo primario */
+    color: white;
+    /* Texto blanco */
+    border-color: #0d6efd;
+    /* Borde primario */
+}
+
+#horas button{
+    width: fit-content;
+    height: fit-content;
+
+    flex: 1;
+    margin: 5px;
+    box-sizing: border-box;
 }
