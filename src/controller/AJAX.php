@@ -8,10 +8,15 @@ if(isset($_POST["mode"])){
     switch($_POST["mode"]){
         case "muestra_horas":
 
-            $lista_horarios=horario::selectHorarioProfesorFecha($connection, $_POST["id_profesor"], $_POST["fecha"]);
+            $lista_horarios=horario::selectHorarioProfesorFecha($connection, $_POST["id_profesor"], $_POST["dia"]);
 
             foreach($lista_horarios as $horario){
-                //Falta enviar los botones con las horas
+                if(horario::compruebaDia($connection, $_POST["fecha"], $horario["id"])){
+                    echo '<button class="btn btn-outline-primary btn_hora">'.$horario["hora_inicio"].'/'.$horario["hora_final"].'</button>';
+                }else{
+                    echo '<button class="btn btn-secondary btn_hora" disabled>'.$horario["hora_inicio"].'/'.$horario["hora_final"].'</button>';
+                }
+                
             }
 
         break;

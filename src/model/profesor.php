@@ -24,6 +24,23 @@ class profesor{
         }
     }
 
-    
+    public static function selectAllProfesores(mysqli $connection){
+        $result=$connection->query("SELECT * from profesores;");
+
+        if($result!=false){
+            $lista_profesores=[];
+
+            $linea=$result->fetch_object();
+
+            while($linea!=null){
+                $profesor=new profesor($linea->nombre, $linea->apellidos, $linea->edad, $linea->id_profesor);
+                array_push($lista_profesores, $profesor);
+                $linea=$result->fetch_object();
+            }
+            return $lista_profesores;
+        }else{
+            return mysqli_error($connection);
+        }
+    }
 
 }

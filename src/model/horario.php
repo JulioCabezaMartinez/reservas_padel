@@ -31,15 +31,29 @@ class horario{
         }
     }
 
+    public static function compruebaDia(mysqli $connection, $fecha, $id_horario){
+        $result=$connection->query("SELECT * from reservas where id_horario=2 AND fecha='".$fecha."';");
+
+        if($result!=false){
+            $linea=$result->fetch_object();
+
+            if($linea!=null){
+                return false;
+            }else{
+                return true;
+            }
+        }
+    }
+
     public static function selectHorarioProfesorFecha(mysqli $connection, $id_profesor, $fecha){
-        $result=$connection->query("SELECT hora_inicio, hora_final from horarios where id_profesor=".$id_profesor." AND fecha='".$fecha."';");
+        $result=$connection->query("SELECT id_horario, hora_inicio, hora_final from horarios where id_profesor=".$id_profesor." AND fecha='".$fecha."';");
 
         if($result!=false){
             $lista_horarios=[];
             $linea=$result->fetch_object();
 
             while($linea!=null){
-                $horario=["hora_inicio"=>$linea->hora_inicio, "hora_final"=>$linea->hora_final];
+                $horario=["hora_inicio"=>$linea->hora_inicio, "hora_final"=>$linea->hora_final, "id"=>$linea->id_horario];
                 array_push($lista_horarios, $horario);
 
                 $linea=$result->fetch_object();
