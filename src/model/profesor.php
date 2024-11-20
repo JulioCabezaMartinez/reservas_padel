@@ -1,18 +1,19 @@
 <?php
 
-class profesor{
-    private int $id_profesor;
+class profesor extends usuario{
+    private String $id_profesor;
     private String $nombre;
     private String $apellidos;
-    private int $edad;
 
-    public function __construct($nombre, $apellidos, $edad, $id_profesor=null){
+    public function __construct($nombre, $apellidos, $correo, $pass, $id_profesor=null){
+        parent::__construct($correo, $pass);
         $this->nombre=$nombre;
         $this->apellidos=$apellidos;
-        $this->edad=$edad;
 
         if(!is_null($id_profesor)){
             $this->id_profesor=$id_profesor;
+        }else{
+            $this->id_profesor=parent::$id_usuario;
         }
     }
 
@@ -33,7 +34,7 @@ class profesor{
             $linea=$result->fetch_object();
 
             while($linea!=null){
-                $profesor=new profesor($linea->nombre, $linea->apellidos, $linea->edad, $linea->id_profesor);
+                $profesor=new profesor($linea->nombre, $linea->apellidos, $linea->correo, $linea->password, $linea->id_profesor);
                 array_push($lista_profesores, $profesor);
                 $linea=$result->fetch_object();
             }

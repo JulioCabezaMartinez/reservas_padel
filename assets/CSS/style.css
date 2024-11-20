@@ -21,3 +21,58 @@ main {
     margin: 5px;
     box-sizing: border-box;
 }
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    overflow-x: hidden;
+}
+
+.barra_lateral{
+    position: sticky;
+    top: 0;
+    max-height: 100vh;
+}
+
+.DonDigitalLogo {
+    max-width: 50%;
+}
+
+.registro_login {
+
+    border: 2px solid black;
+    border-radius: 5px;
+
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+
+    margin-bottom: 3%;
+}
+
+.registro_login label{
+    font-size: 130%;
+    font-weight: bold;
+}
+
+.registro_login input{
+    min-height: 30px;
+
+    font-size: 120%;
+}
+
+.registro_login .submit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Parte del funcionamiento del timepicker en modales */
+.ui-timepicker-container {
+    z-index: 1060 !important; /* Mayor que el z-index del modal (1050 en Bootstrap) */
+}

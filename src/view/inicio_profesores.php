@@ -1,6 +1,18 @@
 <?php
 
+session_start();
+
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL & ~E_NOTICE);
+
+    // if (empty($_SESSION)){
+    //     header("Location:../../../src/view/login.php");
+    //     die();
+    // }
+
+
 //Prueba antes de crear controllers
+require '../model/usuario.php';
 require '../model/profesor.php';
 require '../model/cliente.php';
 require '../model/BuscadorDB.php';
@@ -37,18 +49,18 @@ require_once "./Templates/inicio.inc.php";
     <script>
         //TimePicker
         $(document).ready(function () {
-        $('.timepicker').timepicker({
-            timeFormat: 'HH:mm',
-            interval: 60,
-            minTime: '10:00am',
-            maxTime: '18:00',
-            defaultTime: '11:00am',
-            startTime: '10:00am',
-            dynamic: false,
-            dropdown: true,
-            scrollbar: false
+            $('.timepicker').timepicker({
+                timeFormat: 'HH:mm',
+                interval: 60,
+                minTime: '10:00am',
+                maxTime: '18:00',
+                defaultTime: '11:00am',
+                startTime: '10:00am',
+                dynamic: false,
+                dropdown: true,
+                scrollbar: false
+            });
         });
-});
 
     </script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>

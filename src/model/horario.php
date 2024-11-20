@@ -64,4 +64,41 @@ class horario{
             return mysqli_error($connection);
         }
     }
+
+    public static function selectHorarioProfesor(mysqli $connection, $id_profesor){
+        $result=$connection->query("SELECT * from horarios where id_profesor=".$id_profesor.";");
+
+        if($result!=false){
+            $lista_horarios=[];
+            $linea=$result->fetch_object();
+
+            while($linea!=null){
+                $horario=["hora_inicio"=>$linea->hora_inicio, "hora_final"=>$linea->hora_final, "id"=>$linea->id_horario, "dia"=>$linea->fecha];
+                array_push($lista_horarios, $horario);
+
+                $linea=$result->fetch_object();
+            }
+
+            return $lista_horarios;
+        }else{
+            return mysqli_error($connection);
+        }
+    }
+
+    public static function updateHorario(mysqli $connection, $tipo_update, $id_horario, $id_profesor=null, $fecha=null, $hora_inicio=null, $hora_final=null){
+        $query='';
+        switch($tipo_update){
+            case "historial":
+                $query="UPDATE horarios SET fecha='".$fecha."', hora_inicio='".$hora_inicio."', hora_final='".$hora_final."' WHERE id_horario=".(int)$id_horario.";";
+            break;
+        }
+
+        $result=$connection->query($query);
+
+        if($result!=false){
+            return $query;
+        }else{
+            return $query;
+        }
+    }
 }

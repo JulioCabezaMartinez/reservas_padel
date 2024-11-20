@@ -1,17 +1,21 @@
 <?php
 
-class cliente{
-    private int $id_cliente;
+class cliente extends usuario{
+    private String $id_cliente;
     private String $nombre;
     private String $apellidos;
-    private int $edad;
+    private int $puntos;
 
-    public function __construct($nombre, $apellidos, $edad, $id_cliente=null){
+    public function __construct($nombre, $apellidos, $puntos, $correo, $pass, $id_cliente=null){
+        parent::__construct($correo, $pass);
         $this->nombre=$nombre;
         $this->apellidos=$apellidos;
-        $this->edad=$edad;
 
-        if(!is_null($id_cliente)){
+        $this->puntos=$puntos;
+
+        if(is_null($id_cliente)){
+            $this->id_cliente=parent::$id_usuario;
+        }else{
             $this->id_cliente=$id_cliente;
         }
     }
@@ -24,32 +28,6 @@ class cliente{
         }
     }
 
-    /**
-     * Método que permite la insercción en la tabla clientes de la base de datos. La variable adicional (tipo_insert) indica el tipo de insercción que se va a realizar.
-     * 0. Insercción completa. 
-     * @param mixed $nombre
-     * @param mixed $apellidos
-     * @param mixed $edad
-     * @param mixed $puntos
-     * @param mixed $tipo_insert
-     * @return void
-     */
-    public static function insertCliente(mysqli $connection, $nombre, $apellidos, $edad, $puntos=0, $tipo_insert=0): bool|string{
-        $query='';
-        switch($tipo_insert){
-            case 0: //0. Insercción completa.
-                $query='INSERT into clientes (nombre, apellidos, edad, puntos) VALUES ("'.$nombre.'", "'.$apellidos.'", '.$edad.', '.$puntos.');';
-            break;
-        }
-        $result=$connection->query($query);
-
-        if($result!=false){
-            return true;
-        }else{
-            return mysqli_error($connection);
-        }
-    }
-
     public static function selectAllClientes(mysqli $connection){
         $result=$connection->query("SELECT * from clientes;");
 
@@ -59,7 +37,7 @@ class cliente{
             $linea=$result->fetch_object();
 
             while($linea!=null){
-                $cliente=new cliente($linea->nombre, $linea->apellidos, $linea->edad, $linea->id_cliente);
+                $cliente=new cliente($linea->nombre, $linea->apellidos, $linea->puntos, $linea->correo, $linea->password, $linea->id_cliente);
                 array_push($lista_clientes, $cliente);
                 $linea=$result->fetch_object();
             }
@@ -79,6 +57,23 @@ class cliente{
             return $puntos;
         }else{
             return mysqli_error($connection);
+        }
+    }
+
+    public static function updateCliente(mysqli $connection, $tipo_update, $id_cliente, $nombre=null, $apellidos=null, $puntos=null, $correo=null, $password=null){
+        $query='';
+        switch($tipo_update){
+            case "Puntos":
+                $query="UPDATE clientes SET puntos=".$puntos." WHERE id_cliente='".$id_cliente."';";
+            break;
+        }
+
+        $result=$connection->query($query);
+
+        if($result!=false){
+            return true;
+        }else{
+            return false;
         }
     }
 }

@@ -1,6 +1,14 @@
 <?php
 
+session_start();
+
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL & ~E_NOTICE);
+
+   
+
 //Prueba antes de crear controllers
+require_once '../model/usuario.php';
 require '../model/profesor.php';
 require '../model/cliente.php';
 require '../model/BuscadorDB.php';

@@ -53,11 +53,11 @@
                 <div class="dropdown pb-4">
                     <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="../../assets/IMG/donDigital_default.png" alt="hugenerd" width="30" height="30" class="rounded-circle">
-                        <span class="d-none d-sm-inline mx-1">Hola</span> <!-- Aqui tendría que coger la info de la sesion iniciada = -->
+                        <span class="d-none d-sm-inline mx-1"><?php echo $_SESSION["nombre"]." ".$_SESSION["apellidos"]?></span> <!-- Aqui tendría que coger la info de la sesion iniciada = -->
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                        <li><a class="dropdown-item" href="">Cambiar Contraseña</a></li>
-                        <li><a class="dropdown-item" href="">Cerrar Sesion</a></li>
+                        <li><a class="dropdown-item" href="../../../src/view/cambiar_pass.php">Cambiar Contraseña</a></li>
+                        <li><a class="dropdown-item" href="../../../src/controller/actions_usuario.php?action=cerrar">Cerrar Sesion</a></li>
                     </ul>
                 </div>
             </div>
