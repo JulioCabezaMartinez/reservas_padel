@@ -32,7 +32,7 @@ class horario{
     }
 
     public static function compruebaDia(mysqli $connection, $fecha, $id_horario){
-        $result=$connection->query("SELECT * from reservas where id_horario=2 AND fecha='".$fecha."';");
+        $result=$connection->query("SELECT * from reservas where id_horario=".$id_horario." AND fecha='".$fecha."';");
 
         if($result!=false){
             $linea=$result->fetch_object();
@@ -99,6 +99,16 @@ class horario{
             return $query;
         }else{
             return $query;
+        }
+    }
+
+    public static function insertHorario(mysqli $connection, $id_profesor, $fecha, $hora_inicio, $hora_final){
+        $result=$connection->query("INSERT INTO horarios (id_profesor, fecha, hora_inicio, hora_final) VALUES ('".$id_profesor."', '".$fecha."', '".$hora_inicio."', '".$hora_final."');");
+
+        if($result!=false){
+            return true;
+        }else{
+            return mysqli_error($connection);
         }
     }
 }

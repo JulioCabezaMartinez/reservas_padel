@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require "../model/usuario.php";
 require "../model/BuscadorDB.php";
 require "../model/profesor.php";
@@ -14,7 +16,7 @@ if(isset($_POST["mode"])){
 
             foreach($lista_horarios as $horario){
                 if(horario::compruebaDia($connection, $_POST["fecha"], $horario["id"])){
-                    echo '<button class="btn btn-outline-primary btn_hora">'.$horario["hora_inicio"].'/'.$horario["hora_final"].'</button>';
+                    echo '<button id="btn_horario_'.$horario["id"].'" class="btn btn-outline-primary btn_hora">'.$horario["hora_inicio"].'/'.$horario["hora_final"].'</button>';
                 }else{
                     echo '<button class="btn btn-secondary btn_hora" disabled>'.$horario["hora_inicio"].'/'.$horario["hora_final"].'</button>';
                 }
@@ -61,6 +63,50 @@ if(isset($_POST["mode"])){
 
         break;
             
+        case "creacion_horario":
+            $inserccion=horario::insertHorario($connection, $_POST['profesor'], $_POST['dia'], $_POST['hora_inicio'], $_POST['hora_final']);
+            
+            if($inserccion){
+                echo "Insercción Correcta";
+            }else{
+                echo "Fallo en la insercción";
+            }
+        break;
+
+        case "pagar_reserva":
+            $pago=cliente::updateCliente($connection, "Puntos", $_SESSION['id'], puntos:$_POST['puntos']);
+
+            if($pago){
+                $reserva=cliente::insertReserva($connection, $_POST["id_profesor"], $_SESSION["id"], $_POST["id_horario"], $_POST['fecha']);
+                
+                if($reserva){
+                    echo "Update Correcto";
+                }else{
+                    echo "Fallo al hacer reserva";
+                }
+                    
+            }else{
+                echo "Fallo update";    
+            }
+        break;
+        
+        case "alta":
+            $pago;
+            if($_POST["tipo"]=="Profesor"){
+                $pago=usuario::registrarUsuario($connection, $_POST['correo'], $_POST['pass'], $_POST['confirm'], $_POST['nombre'], $_POST['apellidos'], $_POST['tipo'], image:$_FILES['imagen']);
+            }elseif($_POST["tipo"]=="Alumno"){
+                $pago=usuario::registrarUsuario(connection: $connection, correo: $_POST['correo'], pass: $_POST['pass'], confirmPass: $_POST['confirm'], nombre: $_POST['nombre'], apellidos: $_POST['apellidos'], tipo: $_POST['tipo'], DNI: $_POST['DNI']);
+            }else{
+                echo "Error de tipo";
+            }
+
+            if($pago){
+                echo "Registro ok";
+            }else{
+                echo "Fallo de Registro";
+            }
+
+        break;
     }
 }
 

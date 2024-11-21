@@ -4,17 +4,18 @@ class cliente extends usuario{
     private String $id_cliente;
     private String $nombre;
     private String $apellidos;
+    private String $DNI;
     private int $puntos;
 
-    public function __construct($nombre, $apellidos, $puntos, $correo, $pass, $id_cliente=null){
+    public function __construct($nombre, $apellidos, $puntos, $correo, $pass, $DNI, $id_cliente=null){
         parent::__construct($correo, $pass);
         $this->nombre=$nombre;
         $this->apellidos=$apellidos;
-
         $this->puntos=$puntos;
+        $this->DNI=$DNI;
 
         if(is_null($id_cliente)){
-            $this->id_cliente=parent::$id_usuario;
+            $this->id_cliente=$this->getIdUsuario();
         }else{
             $this->id_cliente=$id_cliente;
         }
@@ -37,7 +38,7 @@ class cliente extends usuario{
             $linea=$result->fetch_object();
 
             while($linea!=null){
-                $cliente=new cliente($linea->nombre, $linea->apellidos, $linea->puntos, $linea->correo, $linea->password, $linea->id_cliente);
+                $cliente=new cliente($linea->nombre, $linea->apellidos, $linea->puntos, $linea->correo, $linea->password, $linea->DNI, $linea->id_cliente);
                 array_push($lista_clientes, $cliente);
                 $linea=$result->fetch_object();
             }
@@ -69,6 +70,16 @@ class cliente extends usuario{
         }
 
         $result=$connection->query($query);
+
+        if($result!=false){
+            return true;
+        }else{
+            return mysqli_error($connection);
+        }
+    }
+
+    public static function insertReserva(mysqli $connection, $id_profesor, $id_cliente, $id_horario, $fecha){
+        $result=$connection->query("INSERT INTO reservas (id_profesor, id_cliente, id_horario, fecha) VALUES ('".$id_profesor."', '".$id_cliente."', '".$id_horario."', '".$fecha."');");
 
         if($result!=false){
             return true;

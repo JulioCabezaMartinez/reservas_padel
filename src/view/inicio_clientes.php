@@ -1,30 +1,19 @@
 <?php
 
-session_start();
-
-    ini_set('display_errors', 1);
-    error_reporting(E_ALL & ~E_NOTICE);
-
-   
-
-//Prueba antes de crear controllers
-require_once '../model/usuario.php';
-require '../model/profesor.php';
-require '../model/cliente.php';
-require '../model/BuscadorDB.php';
-$puntos=cliente::selectPuntosCliente($connection, 1); // El id del cliente se recogerá por Session.
-$lista_profesores=profesor::selectAllProfesores($connection);
-//Prueba antes de crear controllers
+if (empty($_SESSION) || !isset($_SESSION)){
+    header("Location:../../../src/view/login.php");
+    die();
+}
 
 $titulo="Inicio";
-require_once "./Templates/inicio.inc.php";
+require_once "../view/Templates/inicio.inc.php";
 
 ?>
 
 <body>
 
     <?php
-        require_once "./Templates/barra_lateral.inc.php"; 
+        require_once "../view/Templates/barra_lateral.inc.php"; 
     ?>
 
     <main>
@@ -42,6 +31,7 @@ require_once "./Templates/inicio.inc.php";
                     }
                 ?>
             </select>
+            <div id="imagen_profesor" style="width: 300px;"></div>
             <br>
             <br>
             <div>
@@ -72,6 +62,7 @@ require_once "./Templates/inicio.inc.php";
             <button id="btn_atras_horario" class="btn btn-secondary">Atras</button>
 
             <!-- Span ocultos para enviar los datos -->
+            <span id="id_horario" class="d-none"></span>
             <span id="hora_selected" class="d-none"></span>
             <span id="fecha_selected" class="d-none"></span>
             <span id="dia_selected" class="d-none"></span>
@@ -82,20 +73,45 @@ require_once "./Templates/inicio.inc.php";
                 <h3>Reserva de Pista</h3>
                 <p>Balance: <?php echo $puntos ?><i class="fa-solid fa-table-tennis-paddle-ball mx-2"></i> -  1<i class="fa-solid fa-table-tennis-paddle-ball mx-2"></i></p>
                 <hr>
+                <?php
+                if(($puntos-1)<0){
+                ?>
+                    <p>Total: <span style="color: red;"><?php echo $puntos-1 ?></span><i class="fa-solid fa-table-tennis-paddle-ball mx-2"></i></p>
+                <?php
+                }else{
+                ?>
                 <p>Total: <?php echo $puntos-1 ?><i class="fa-solid fa-table-tennis-paddle-ball mx-2"></i></p>
-
+                <?php
+                }
+                ?>
+                <span id="puntos_final" class="d-none"><?php echo $puntos-1 ?></span>
             </div>
             <br>
+            <?php
+            if(($puntos-1)<0){
+            ?>
+                <button id="btn_pagar" class="btn btn-warning" disabled>Pagar</button> <span style="color: red;">No dispone de los bonos suficientes</span>
+            <?php
+            }else{
+            ?>
             <button id="btn_pagar" class="btn btn-warning">Pagar</button>
+            <?php
+            }
+            ?>
             <br><br>
             <button id="btn_atras_pagar" class="btn btn-secondary">Atras</button>
         </div>
     </main>
 
+<img src='../../assets/IMG/<?php ?>' alt="">
     <script>
         
 
         $(document).ready(function(){
+            $("#profesor_select").change(function(){
+                $("#imagen_profesor").append()
+            });
+            //DatePicker
             const daysOfWeek = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
             var dayName;
             $("#datepicker").datepicker({
@@ -112,7 +128,7 @@ require_once "./Templates/inicio.inc.php";
                     $("#dia_selected").text(dayName);
 
                     $.ajax({
-                        url:"../controller/AJAX.php", //Esto debe cambiarse cuando se llame a las vistas por el controller.
+                        url:"AJAX.php", //Esto debe cambiarse cuando se llame a las vistas por el controller.
                         method: "POST",
                         data:{
                             mode: "muestra_horas",
@@ -126,10 +142,11 @@ require_once "./Templates/inicio.inc.php";
                     });
                 }
             });
-
+            
             $(document).on('click', '.btn_hora', function(){
                 let hora=$(this).text();
                 $("#hora_selected").text(hora);
+                $("#id_horario").text($(this).attr("id").split("_")[2]); //Esto es mejorable debido a que puede generar un fallo humano. (Ponerse al pulsar el boton de siguiente)
             });
 
             $("#btn_select_horario").click(function(){
@@ -166,6 +183,28 @@ require_once "./Templates/inicio.inc.php";
                 $("#profesor").removeClass("d-none");
             });
 
+
+            $("#btn_pagar").click(function(){
+                let puntos=$("#puntos_final").text();
+                let id_horario=$("#id_horario").text();
+                let id_profesor=$("#profesor_selected").text();
+                let fecha=$("#fecha_selected").text();
+                $.ajax({
+                    url: "AJAX.php",
+                    method: "POST",
+                    data:{
+                        mode: "pagar_reserva",
+                        puntos:puntos,
+                        id_horario:id_horario,
+                        id_profesor:id_profesor,
+                        fecha:fecha
+                    },
+                    success:function(data){
+                        console.log(data);
+                    }
+                });
+            });
+            
         });
     </script>
 </body>

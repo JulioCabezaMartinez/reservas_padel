@@ -13,7 +13,7 @@ class profesor extends usuario{
         if(!is_null($id_profesor)){
             $this->id_profesor=$id_profesor;
         }else{
-            $this->id_profesor=parent::$id_usuario;
+            $this->id_profesor=$this->getIdUsuario();
         }
     }
 

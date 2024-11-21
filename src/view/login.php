@@ -2,10 +2,10 @@
 
 session_start();
 
-if (!empty($_SESSION)) {
-    header("Location:../../../src/controller/actions_usuario.php?action=0");
-    die();
-}
+// if (!empty($_SESSION)) {
+//     header("Location:../../../src/controller/actions_usuario.php?action=0");
+//     die();
+// }
 $titulo="login";
 require_once "../view/Templates/inicio.inc.php";
 
@@ -178,10 +178,6 @@ require_once "../view/Templates/inicio.inc.php";
     <label style="font-size: 150%;font-weight: bold;">LOGIN</label>
     <div class="registro_login">
         <form action="../controller/actions_usuario.php" method="post">
-            <label for="tipo">Tipo de Usuario:</label><br><br>
-            <input type="radio" name="tipo" value="Profesor"><label>Profesor</label>
-            <input type="radio" name="tipo" value="Alumno" checked><label>Alumno</label>
-            <br><br>
             <label for="correo">Correo:</label><br>
             <input type="email" name="correo" maxlength="60">
             <br><br>
@@ -191,7 +187,7 @@ require_once "../view/Templates/inicio.inc.php";
             <input type="submit" name="login" value="Iniciar Sesión">
             <br><br>
             <a style="font-size: 130%;" href="./register.php">Nuevo Usuario</a><br><br>
-            <p>Si ha olvidado su contraseña pulse <span id="recuperar_pass" class="link_falso">aqui</span></p>
+            <!-- <p>Si ha olvidado su contraseña pulse <span id="recuperar_pass" class="link_falso">aqui</span></p> -->
         </form>
 
     </div>

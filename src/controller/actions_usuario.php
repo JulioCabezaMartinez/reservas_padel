@@ -7,7 +7,7 @@ require_once '../model/profesor.php';
 require_once '../model/BuscadorDB.php';
 
 if(isset($_POST["register"])){
-    $registro=usuario::registrarUsuario($connection, $_POST["correo"], $_POST["pass"], $_POST["confirm"], $_POST["nombre"], $_POST['apellidos'], $_POST["tipo"]);
+    $registro=usuario::registrarUsuario($connection, $_POST["correo"], $_POST["pass"], $_POST["confirm"], $_POST["nombre"], $_POST['apellidos'], $_POST["tipo"], DNI:$_POST['DNI']);
     if(!is_string($registro)){
         header('Location: ../view/login.php?action=register');
     }else{
@@ -16,15 +16,43 @@ if(isset($_POST["register"])){
 }
 
 if(isset($_POST['login'])){
-    $login=usuario::LogIn($_POST['correo'], $_POST['pass'], $_POST['tipo'], $connection);
+    $login=usuario::LogIn($_POST['correo'], $_POST['pass'], $connection);
 
     if($login){
-        if($_POST['tipo']=="Alumno"){
-            header('Location: ../view/inicio_clientes.php');
-        }elseif($_POST['tipo']=="Profesor"){
-            header('Location: ../view/inicio_profesores.php');
+        if($_SESSION['tipo_usuario']=="Alumno"){//Login Alumno
+
+            $puntos=cliente::selectPuntosCliente($connection, $_SESSION['id']); // El id del cliente se recogerá por Session.
+            $lista_profesores=profesor::selectAllProfesores($connection);
+            
+            include '../view/inicio_clientes.php';
+
+        }elseif($_SESSION['tipo_usuario']=="Profesor"){//Login Profesor
+
+            $puntos=cliente::selectPuntosCliente($connection, 1); // El id del cliente se recogerá por Session.
+            $lista_profesores=profesor::selectAllProfesores($connection);
+
+            include '../view/inicio_profesores.php';
+
+        }elseif($_SESSION['tipo_usuario']=="Administrador"){//Login Administrador
+
+            $puntos=cliente::selectPuntosCliente($connection, 1); // El id del cliente se recogerá por Session.
+            $lista_profesores=profesor::selectAllProfesores($connection);
+            $lista_alumnos=cliente::selectAllClientes($connection);
+
+            include '../view/panel_admin.php';
+
+        }else{
+            header('Location: ../view/login.php?hola=1');
         }
     }else{
         header('Location: ../view/login.php?action=1');
     }
+}
+
+switch($_GET["action"]){
+    case "cerrar":
+        usuario::logOut();
+    
+        header("Location: ../view/login.php");
+    break;
 }

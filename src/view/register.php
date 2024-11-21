@@ -21,6 +21,9 @@ require_once "../view/Templates/inicio.inc.php";
             <label for="apellidos">*Apellidos:</label><br>
             <input class="form-control" type="text" name="apellidos" placeholder="Apellidos" maxlength="60" required>
             <br><br>
+            <label for="DNI">*DNI:</label><br>
+            <input class="form-control w-50" type="text" name="DNI" placeholder="12345678A" maxlength="9" pattern="(\d{8})([A-Z]{1})" required> <!-- Poner para el NIE -->
+            <br><br>
             <label for="correo">*Correo:</label><br>
             <input class="form-control" type="email" name="correo" maxlength="60" required>
             <br><br>

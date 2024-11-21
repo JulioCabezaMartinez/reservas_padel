@@ -1,24 +1,10 @@
 <?php
 
-session_start();
 
-    ini_set('display_errors', 1);
-    error_reporting(E_ALL & ~E_NOTICE);
-
-    // if (empty($_SESSION)){
-    //     header("Location:../../../src/view/login.php");
-    //     die();
-    // }
-
-
-//Prueba antes de crear controllers
-require '../model/usuario.php';
-require '../model/profesor.php';
-require '../model/cliente.php';
-require '../model/BuscadorDB.php';
-$puntos=cliente::selectPuntosCliente($connection, 1); // El id del cliente se recogerá por Session.
-$lista_profesores=profesor::selectAllProfesores($connection);
-//Prueba antes de crear controllers
+    if (empty($_SESSION) || !isset($_SESSION)){
+        header("Location:../../../src/view/login.php");
+        die();
+    }
 
 $titulo="Inicio";
 require_once "./Templates/inicio.inc.php";
