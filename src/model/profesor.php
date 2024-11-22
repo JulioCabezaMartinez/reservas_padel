@@ -44,4 +44,18 @@ class profesor extends usuario{
         }
     }
 
+    public static function selectProfesor(mysqli $connection, $id_profesor){
+        $result=$connection->query("SELECT * from profesores where id_profesor='".$id_profesor."';");
+
+        if($result!=false){
+            $linea=$result->fetch_object();
+            $profesor=new profesor($linea->nombre, $linea->apellidos, $linea->correo, $linea->password, $linea->id_profesor);
+
+            return $profesor;
+        
+        }else{
+            return mysqli_error($connection);
+        }
+    }
+
 }

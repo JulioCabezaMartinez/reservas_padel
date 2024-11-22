@@ -21,12 +21,12 @@ require_once "../view/Templates/inicio.inc.php";
         <h3>Desde aqui puede reservar una clase de padel con alguno de nuestros profesores:</h3>
 
         <div id="profesor">
-            <label for="profesor_text">Indique su profesor de padel: </label>
+            <label style="font-weight: bold;" for="profesor_text">Indique su profesor de padel: </label>
             <select name="" id="profesor_select">
                 <?php
                     foreach($lista_profesores as $profesor){
                 ?>
-                    <option value="<?php echo $profesor->id_profesor ?>"><?php echo $profesor->nombre ?></option>
+                    <option data-img-label="<?php echo $profesor->nombre.' '.$profesor->apellidos ?>" data-img-src="../../assets/IMG/<?php echo $profesor->nombre.'_'.$profesor->apellidos.".jpg" ?>" value="<?php echo $profesor->id_profesor ?>"><?php echo $profesor->nombre ?></option>
                 <?php
                     }
                 ?>
@@ -94,7 +94,7 @@ require_once "../view/Templates/inicio.inc.php";
             <?php
             }else{
             ?>
-            <button id="btn_pagar" class="btn btn-warning">Pagar</button>
+            <button id="btn_pagar" class="btn btn-warning">Reservas</button>
             <?php
             }
             ?>
@@ -108,9 +108,13 @@ require_once "../view/Templates/inicio.inc.php";
         
 
         $(document).ready(function(){
-            $("#profesor_select").change(function(){
-                $("#imagen_profesor").append()
+            
+            //Image Picker
+            $("#profesor_select").imagepicker({
+                show_label: true
             });
+
+
             //DatePicker
             const daysOfWeek = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
             var dayName;
@@ -200,7 +204,24 @@ require_once "../view/Templates/inicio.inc.php";
                         fecha:fecha
                     },
                     success:function(data){
-                        console.log(data);
+                        if(data=="Update Correcto"){
+                            Swal.fire({
+                            title: "Reserva Realizada",
+                            text: "La reserva se ha realizado con exito",
+                            icon: "success"
+                            }).then((result)=>{
+                                location.reload();
+                            });
+                        }else{
+                            Swal.fire({
+                            title: "Error Servidor",
+                            text: "Ha habido un error en el servidor y no se ha completado la reserva",
+                            icon: "error"
+                            }).then((result)=>{
+                                location.reload();
+                            });
+                        }
+                        
                     }
                 });
             });

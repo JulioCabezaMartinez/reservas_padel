@@ -26,6 +26,13 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Image Picker -->
+    <script src='../../../assets/Plugins/image-picker-master/image-picker/image-picker.js'></script>
+    <link rel="stylesheet" href="../../../assets/Plugins/image-picker-master/image-picker/image-picker.css">
+
     <title><?php echo $titulo; ?></title>
 
     <script>

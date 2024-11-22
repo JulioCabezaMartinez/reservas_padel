@@ -5,6 +5,7 @@ require_once '../model/cliente.php';
 require_once '../model/horario.php';
 require_once '../model/profesor.php';
 require_once '../model/BuscadorDB.php';
+require_once '../model/reserva.php';
 
 if(isset($_POST["register"])){
     $registro=usuario::registrarUsuario($connection, $_POST["correo"], $_POST["pass"], $_POST["confirm"], $_POST["nombre"], $_POST['apellidos'], $_POST["tipo"], DNI:$_POST['DNI']);
@@ -21,23 +22,24 @@ if(isset($_POST['login'])){
     if($login){
         if($_SESSION['tipo_usuario']=="Alumno"){//Login Alumno
 
-            $puntos=cliente::selectPuntosCliente($connection, $_SESSION['id']); // El id del cliente se recogerá por Session.
+            $puntos=cliente::selectCliente($connection, $_SESSION['id'], "Puntos"); // El id del cliente se recogerá por Session.
             $lista_profesores=profesor::selectAllProfesores($connection);
             
             include '../view/inicio_clientes.php';
 
         }elseif($_SESSION['tipo_usuario']=="Profesor"){//Login Profesor
 
-            $puntos=cliente::selectPuntosCliente($connection, 1); // El id del cliente se recogerá por Session.
+            $puntos=cliente::selectCliente($connection, 1, "Puntos"); // El id del cliente se recogerá por Session.
             $lista_profesores=profesor::selectAllProfesores($connection);
 
             include '../view/inicio_profesores.php';
 
         }elseif($_SESSION['tipo_usuario']=="Administrador"){//Login Administrador
 
-            $puntos=cliente::selectPuntosCliente($connection, 1); // El id del cliente se recogerá por Session.
+            $puntos=cliente::selectCliente($connection, 1,  "Puntos"); // El id del cliente se recogerá por Session.
             $lista_profesores=profesor::selectAllProfesores($connection);
             $lista_alumnos=cliente::selectAllClientes($connection);
+            $lista_reservas=reserva::selectReservasAll($connection);
 
             include '../view/panel_admin.php';
 

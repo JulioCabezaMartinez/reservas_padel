@@ -85,6 +85,20 @@ class horario{
         }
     }
 
+    public static function selectHorario(mysqli $connection, $id_horario){
+        $result=$connection->query("SELECT * from horarios where id_horario=".$id_horario.";");
+
+        if($result!=false){
+            $linea=$result->fetch_object();
+            $horario=["hora_inicio"=>$linea->hora_inicio, "hora_final"=>$linea->hora_final];
+
+            return $horario;
+
+        }else{
+            return mysqli_error($connection);
+        }
+    }
+
     public static function updateHorario(mysqli $connection, $tipo_update, $id_horario, $id_profesor=null, $fecha=null, $hora_inicio=null, $hora_final=null){
         $query='';
         switch($tipo_update){

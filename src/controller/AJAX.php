@@ -7,6 +7,7 @@ require "../model/BuscadorDB.php";
 require "../model/profesor.php";
 require "../model/cliente.php";
 require "../model/horario.php";
+require "../model/reserva.php";
 
 if(isset($_POST["mode"])){
     switch($_POST["mode"]){
@@ -24,7 +25,7 @@ if(isset($_POST["mode"])){
         break;
 
         case "recarga_bonos":
-            $recarga=cliente::updateCliente($connection, "Puntos", id_cliente:$_POST['alumno'], puntos:$_POST['bonos']);
+            $recarga=cliente::updateCliente($connection, "Puntos", DNI:$_POST['alumno'], puntos:$_POST['bonos']);
 
             if($recarga){
                 echo "Recarga realizada con exito";
@@ -77,7 +78,7 @@ if(isset($_POST["mode"])){
             $pago=cliente::updateCliente($connection, "Puntos", $_SESSION['id'], puntos:$_POST['puntos']);
 
             if($pago){
-                $reserva=cliente::insertReserva($connection, $_POST["id_profesor"], $_SESSION["id"], $_POST["id_horario"], $_POST['fecha']);
+                $reserva=reserva::insertReserva($connection, $_POST["id_profesor"], $_SESSION["id"], $_POST["id_horario"], $_POST['fecha']);
                 
                 if($reserva){
                     echo "Update Correcto";

@@ -103,15 +103,15 @@ require_once "../view/Templates/inicio.inc.php";
     ?>
 
     <main class="my-4">
-        <h2>Asignar Bonos a Alumnos</h2><br>
+        <h2>Asignar Clases a Alumnos</h2><br>
 
         <label>Indique a que alumno quiere añadir bonos (Puede buscar por DNI o por Nombre):</label>
         <input id="alumnos">
-        <br>
-        <br>
+        <span id="error_alumnos" class="d-none" style="color: red;">Debe seleccionar un alumno al que recargar las clases</span>
+        <br><br>
         <label>Indique la cantidad de bonos que va a modificar: </label>
-        <input type="number" value="0" name="" id="bonos" max="10" min="0">
-        <br>
+        <input type="number" value="0" name="" id="bonos" max="20" min="0" step="5">
+        <br><br>
         <button id="btn_recargar_bonos" class="btn btn-warning">Recargar</button>
         <br>
         <hr>
@@ -143,6 +143,45 @@ require_once "../view/Templates/inicio.inc.php";
             
         </tbody>
         </table>
+        <hr>
+        <br><!-- -------------------------------------------------------------------- -->
+
+        <h2>Reservas realizadas</h2>
+        <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Fecha</th>
+                <th>Profesor</th>
+                <th>Alumno</th>
+                <th>Hora de Inicio</th>
+                <th>Hora de Finalizacion</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="body_reservas">
+        <?php
+
+        foreach($lista_reservas as $reserva){
+            $horario=horario::selectHorario($connection, $reserva["id_horario"]);
+            $cliente=cliente::selectCliente($connection, $reserva["id_cliente"], "Todo");
+            $profesor=profesor::selectProfesor($connection, $reserva["id_profesor"])
+
+        ?>
+            <tr>
+                <td><?php echo $reserva["fecha"] ?></td>
+                <td><?php echo $profesor->nombre." ".$profesor->apellidos ?></td>
+                <td><?php echo $cliente->nombre." ".$cliente->apellidos ?></td>
+                <td><?php echo $horario["hora_inicio"] ?></td><!-- Deberia cambiar de array Dinamico a Objecto -->
+                <td><?php echo $horario["hora_final"] ?></td><!-- Deberia cambiar de array Dinamico a Objecto -->
+                <td><button id="btn_<?php echo $reserva["id_reserva"]?>" class="btn_modificar_reserva btn btn-primary"><i class="fa-solid fa-pen me-2"></i>Modificar reserva</button></td>
+            </tr>
+        <?php
+        }
+
+        ?>
+        </tbody>
+        </table>
+
         <hr>
         <br><!-- -------------------------------------------------------------------- -->
 
@@ -221,7 +260,7 @@ require_once "../view/Templates/inicio.inc.php";
                 echo json_encode($nombres_alumnos);
             ?>;
 
-            $( function() {
+            $(function() {
                 $( "#alumnos" ).autocomplete({
                 source: alumnos
                 });
@@ -234,24 +273,48 @@ require_once "../view/Templates/inicio.inc.php";
                 } else if (this.value < 0) {
                     this.value = 0; // Si es menor a 0, se ajusta a 0
                 }
+
+                //Aqui se puede indicar si exclusivamente quiere multiplos de 5 o no para poner ifs de "Redondeo".
             });
 
             $("#btn_recargar_bonos").click(function(){
-                let alumno=$("#alumno").val();
-                let bonos=$("#bonos").val();
+                let alumno=$("#alumnos").val();
+                if(alumno==""){
+                    $("#error_alumnos").removeClass("d-none");
+                }else{
+                    let DNI_alumno=alumno.split("-")[0];
+                    let bonos=$("#bonos").val();
 
-                $.ajax({
-                    url:"AJAX.php", //Esto debe cambiarse cuando se llame a las vistas por el controller.
-                    method: "POST",
-                    data:{
-                        mode: "recarga_bonos",
-                        alumno:alumno,
-                        bonos:bonos
-                    },
-                    success:function(data){
-                        console.log(data);
-                    }
-                });
+                    $.ajax({
+                        url:"AJAX.php", //Esto debe cambiarse cuando se llame a las vistas por el controller.
+                        method: "POST",
+                        data:{
+                            mode: "recarga_bonos",
+                            alumno:DNI_alumno,
+                            bonos:bonos
+                        },
+                        success:function(data){
+                            if(data=="Recarga realizada con exito"){
+                                Swal.fire({
+                                title: "Recarga Realizada",
+                                text: "La recarga se ha realizado con exito",
+                                icon: "success"
+                                }).then((result)=>{
+                                    location.reload();
+                                });
+                            }else{
+                                Swal.fire({
+                                title: "Error Servidor",
+                                text: "Ha habido un error en el servidor y no se ha completado la reserva",
+                                icon: "error"
+                                }).then((result)=>{
+                                    location.reload();
+                                });
+                            }
+                        }
+                    });
+                }
+                
             });
 
             $("#profesor").change(function(){

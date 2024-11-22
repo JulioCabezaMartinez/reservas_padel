@@ -4,7 +4,7 @@
         <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark barra_lateral">
             <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                 <a style="cursor: default;" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                    <span><img class="fs-5 d-none d-sm-inline" src="../../../assets/IMG/file.png" style="width: 10rem;" alt=""></span><span>Bonos: <?php echo $puntos?><i class="fa-solid fa-table-tennis-paddle-ball mx-2"></i></span> <!-- Esta variable puntos debe de cambiarse por los puntos recogidos en el sesion -->
+                    <span><img class="fs-5 d-none d-sm-inline" src="../../../assets/IMG/file.png" style="width: 10rem;" alt=""></span><span>Clases: <?php echo $puntos?><i class="fa-solid fa-table-tennis-paddle-ball mx-2"></i></span> <!-- Esta variable puntos debe de cambiarse por los puntos recogidos en el sesion -->
                 </a>
                 <ul class="nav flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                     <li class="nav-item">

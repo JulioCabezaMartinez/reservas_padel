@@ -48,24 +48,45 @@ class cliente extends usuario{
         }
     }
 
-    public static function selectPuntosCliente(mysqli $connection, $id_cliente){
-        $result=$connection->query("SELECT puntos from clientes where id_cliente=".$id_cliente.";");
+    public static function selectCliente(mysqli $connection, $id_cliente, $tipo){
+        $query="";
+        switch($tipo){
+            case "Puntos":
+                $query="SELECT puntos from clientes where id_cliente=".$id_cliente.";";
+            break;
+
+            case "Todo":
+                $query="SELECT * from clientes where id_cliente=".$id_cliente.";";
+            break;
+        }
+        $result=$connection->query($query);
 
         if($result!=false){
             $linea=$result->fetch_object();
-            $puntos=$linea->puntos;
 
-            return $puntos;
+            $return='';
+
+            switch($tipo){
+                case "Puntos":
+                    $return=$linea->puntos;
+                break;
+
+                case "Todo":
+                    $return=new cliente($linea->nombre, $linea->apellidos, $linea->puntos, $linea->correo, $linea->password, $linea->DNI, $linea->id_cliente);
+                break;
+            }
+
+            return $return;
         }else{
             return mysqli_error($connection);
         }
     }
 
-    public static function updateCliente(mysqli $connection, $tipo_update, $id_cliente, $nombre=null, $apellidos=null, $puntos=null, $correo=null, $password=null){
+    public static function updateCliente(mysqli $connection, $tipo_update, $id_cliente=null, $nombre=null, $apellidos=null, $puntos=null, $correo=null, $password=null, $DNI=null){
         $query='';
         switch($tipo_update){
             case "Puntos":
-                $query="UPDATE clientes SET puntos=".$puntos." WHERE id_cliente='".$id_cliente."';";
+                $query="UPDATE clientes SET puntos=".$puntos." WHERE DNI='".$DNI."';";
             break;
         }
 
@@ -75,16 +96,6 @@ class cliente extends usuario{
             return true;
         }else{
             return mysqli_error($connection);
-        }
-    }
-
-    public static function insertReserva(mysqli $connection, $id_profesor, $id_cliente, $id_horario, $fecha){
-        $result=$connection->query("INSERT INTO reservas (id_profesor, id_cliente, id_horario, fecha) VALUES ('".$id_profesor."', '".$id_cliente."', '".$id_horario."', '".$fecha."');");
-
-        if($result!=false){
-            return true;
-        }else{
-            return false;
         }
     }
 }
