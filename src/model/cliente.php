@@ -88,6 +88,10 @@ class cliente extends usuario{
             case "Puntos":
                 $query="UPDATE clientes SET puntos=".$puntos." WHERE DNI='".$DNI."';";
             break;
+
+            case 'Puntos_reserva':
+                $query="UPDATE clientes SET puntos=".$puntos." WHERE id_cliente='".$id_cliente."';";
+            break;
         }
 
         $result=$connection->query($query);

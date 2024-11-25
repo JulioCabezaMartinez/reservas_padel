@@ -18,89 +18,123 @@ require_once "../view/Templates/inicio.inc.php";
 
     <main>
         <h1>Bienvenid@, <span></span></h1>
-        <h3>Desde aqui puede reservar una clase de padel con alguno de nuestros profesores:</h3>
+        <div>
+            <h3>Desde aqui puede reservar una clase de padel con alguno de nuestros profesores:</h3>
 
-        <div id="profesor">
-            <label style="font-weight: bold;" for="profesor_text">Indique su profesor de padel: </label>
-            <select name="" id="profesor_select">
-                <?php
-                    foreach($lista_profesores as $profesor){
-                ?>
-                    <option data-img-label="<?php echo $profesor->nombre.' '.$profesor->apellidos ?>" data-img-src="../../assets/IMG/<?php echo $profesor->nombre.'_'.$profesor->apellidos.".jpg" ?>" value="<?php echo $profesor->id_profesor ?>"><?php echo $profesor->nombre ?></option>
-                <?php
+            <div id="profesor">
+                <label style="font-weight: bold;" for="profesor_text">Indique su profesor de padel: </label>
+                <select name="" id="profesor_select">
+                    <?php
+                        foreach($lista_profesores as $profesor){
+                    ?>
+                        <option data-img-label="<?php echo $profesor->nombre.' '.$profesor->apellidos ?>" data-img-src="../../assets/IMG/<?php echo $profesor->nombre.'_'.$profesor->apellidos.".jpg" ?>" value="<?php echo $profesor->id_profesor ?>"><?php echo $profesor->nombre ?></option>
+                    <?php
+                        }
+                    ?>
+                </select>
+                <div id="imagen_profesor" style="width: 300px;"></div>
+                <br>
+                <br>
+                <div>
+                    <button id="btn_seleccionar_profesor" class="btn btn-success">Siguiente</button>
+                </div>
+                
+
+                <!-- Span ocultos para enviar los datos -->
+                <span id="profesor_selected" class="d-none"></span>
+            </div>
+
+            <div id="reserva" class="d-none">
+                <div id="text_horario" class="d-flex">
+                    Fecha:
+                    <input id="fecha_text" type="text" readonly>
+                    Hora:
+                    <input id="hora_text" type="text" readonly>
+                </div>
+
+                <div class="d-flex m-4">
+                    <div id="datepicker"></div>
+                    <div class="row row-cols-3 m-4" id="horas"></div>
+                </div>
+                <button id="btn_select_horario" class="btn btn-primary d-none" style="width: fit-content; height:fit-content;">Seleccionar Fecha y Hora</button>
+                <br>
+                <br>
+                <button id="btn_seleccionar_horario" class="btn btn-success">Siguiente</button>
+                <button id="btn_atras_horario" class="btn btn-secondary">Atras</button>
+
+                <!-- Span ocultos para enviar los datos -->
+                <span id="id_horario" class="d-none"></span>
+                <span id="hora_selected" class="d-none"></span>
+                <span id="fecha_selected" class="d-none"></span>
+                <span id="dia_selected" class="d-none"></span>
+            </div>
+
+            <div class="d-none w-25" id="pago">
+                <div class="d-flex flex-column">
+                    <h3>Reserva de Pista</h3>
+                    <p>Balance: <?php echo $puntos ?><i class="fa-solid fa-table-tennis-paddle-ball mx-2"></i> -  1<i class="fa-solid fa-table-tennis-paddle-ball mx-2"></i></p>
+                    <hr>
+                    <?php
+                    if(($puntos-1)<0){
+                    ?>
+                        <p>Total: <span style="color: red;"><?php echo $puntos-1 ?></span><i class="fa-solid fa-table-tennis-paddle-ball mx-2"></i></p>
+                    <?php
+                    }else{
+                    ?>
+                    <p>Total: <?php echo $puntos-1 ?><i class="fa-solid fa-table-tennis-paddle-ball mx-2"></i></p>
+                    <?php
                     }
-                ?>
-            </select>
-            <div id="imagen_profesor" style="width: 300px;"></div>
-            <br>
-            <br>
-            <div>
-                <button id="btn_seleccionar_profesor" class="btn btn-success">Siguiente</button>
-            </div>
-            
-
-            <!-- Span ocultos para enviar los datos -->
-            <span id="profesor_selected" class="d-none"></span>
-        </div>
-
-        <div id="reserva" class="d-none">
-            <div id="text_horario" class="d-flex">
-                Fecha:
-                <input id="fecha_text" type="text" readonly>
-                Hora:
-                <input id="hora_text" type="text" readonly>
-            </div>
-
-            <div class="d-flex m-4">
-                <div id="datepicker"></div>
-                <div class="row row-cols-3 m-4" id="horas"></div>
-            </div>
-            <button id="btn_select_horario" class="btn btn-primary d-none" style="width: fit-content; height:fit-content;">Seleccionar Fecha y Hora</button>
-            <br>
-            <br>
-            <button id="btn_seleccionar_horario" class="btn btn-success">Siguiente</button>
-            <button id="btn_atras_horario" class="btn btn-secondary">Atras</button>
-
-            <!-- Span ocultos para enviar los datos -->
-            <span id="id_horario" class="d-none"></span>
-            <span id="hora_selected" class="d-none"></span>
-            <span id="fecha_selected" class="d-none"></span>
-            <span id="dia_selected" class="d-none"></span>
-        </div>
-
-        <div class="d-none w-25" id="pago">
-            <div class="d-flex flex-column">
-                <h3>Reserva de Pista</h3>
-                <p>Balance: <?php echo $puntos ?><i class="fa-solid fa-table-tennis-paddle-ball mx-2"></i> -  1<i class="fa-solid fa-table-tennis-paddle-ball mx-2"></i></p>
-                <hr>
+                    ?>
+                    <span id="puntos_final" class="d-none"><?php echo $puntos-1 ?></span>
+                </div>
+                <br>
                 <?php
                 if(($puntos-1)<0){
                 ?>
-                    <p>Total: <span style="color: red;"><?php echo $puntos-1 ?></span><i class="fa-solid fa-table-tennis-paddle-ball mx-2"></i></p>
+                    <button id="btn_pagar" class="btn btn-warning" disabled>Pagar</button> <span style="color: red;">No dispone de los bonos suficientes</span>
                 <?php
                 }else{
                 ?>
-                <p>Total: <?php echo $puntos-1 ?><i class="fa-solid fa-table-tennis-paddle-ball mx-2"></i></p>
+                <button id="btn_pagar" class="btn btn-warning">Reservas</button>
                 <?php
                 }
                 ?>
-                <span id="puntos_final" class="d-none"><?php echo $puntos-1 ?></span>
+                <br><br>
+                <button id="btn_atras_pagar" class="btn btn-secondary">Atras</button>
             </div>
-            <br>
-            <?php
-            if(($puntos-1)<0){
-            ?>
-                <button id="btn_pagar" class="btn btn-warning" disabled>Pagar</button> <span style="color: red;">No dispone de los bonos suficientes</span>
-            <?php
-            }else{
-            ?>
-            <button id="btn_pagar" class="btn btn-warning">Reservas</button>
-            <?php
-            }
-            ?>
-            <br><br>
-            <button id="btn_atras_pagar" class="btn btn-secondary">Atras</button>
         </div>
+        <hr>
+        <div>
+            <h2>Mis Reservas</h2>
+            <table class="table">
+                <thead>
+                    <th scope="col">Dia</th>
+                    <th>Hora Inicio</th>
+                    <th>Hora Final</th>
+                    <th>Profesor</th>
+                    <th>Acciones</th>
+                </thead>
+                <tbody>
+                <?php
+
+                    foreach ($lista_reservas as $reserva) {
+                        $horario = horario::selectHorario($connection, $reserva["id_horario"]);
+                        $profesor=profesor::selectProfesor($connection, $reserva["id_profesor"]);
+                ?>
+                        <tr>
+                            <td><?php echo $reserva["fecha"] ?></td>
+                            <td><?php echo $horario["hora_inicio"] ?></td><!-- Deberia cambiar de array Dinamico a Objecto -->
+                            <td><?php echo $horario["hora_final"] ?></td><!-- Deberia cambiar de array Dinamico a Objecto -->
+                            <td><?php echo $profesor->nombre . " " . $profesor->apellidos ?></td>
+                            <!-- <td><button id="btn_<?php echo $reserva["id_reserva"] ?>" class="btn_modificar_reserva btn btn-primary"><i class="fa-solid fa-pen me-2"></i>Modificar reserva</button></td> -->
+                        </tr>
+                <?php
+                    }
+                ?>
+                </tbody>
+            </table>
+        </div>
+
     </main>
 
 <img src='../../assets/IMG/<?php ?>' alt="">

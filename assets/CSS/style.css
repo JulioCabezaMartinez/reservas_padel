@@ -96,3 +96,12 @@ body {
     padding-top: 10px;
     margin: 0;
 }
+
+/* Admin butons */
+
+#admin_butons a{
+    text-decoration: none;
+
+    margin-left: 10px;
+    margin-right: 10px;
+}

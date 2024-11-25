@@ -66,7 +66,7 @@ class horario{
     }
 
     public static function selectHorarioProfesor(mysqli $connection, $id_profesor){
-        $result=$connection->query("SELECT * from horarios where id_profesor=".$id_profesor.";");
+        $result=$connection->query("SELECT * from horarios where id_profesor='".$id_profesor."';");
 
         if($result!=false){
             $lista_horarios=[];

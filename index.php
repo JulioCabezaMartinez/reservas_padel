@@ -1,4 +1,4 @@
 <?php
 
 
-header("Location: ");
+header("Location: src/view/login.php");

@@ -21,30 +21,26 @@ if(isset($_POST['login'])){
 
     if($login){
         if($_SESSION['tipo_usuario']=="Alumno"){//Login Alumno
-
+            $lista_reservas=reserva::selectReservasAlumno($connection, $_SESSION['id']);
             $puntos=cliente::selectCliente($connection, $_SESSION['id'], "Puntos"); // El id del cliente se recogerá por Session.
             $lista_profesores=profesor::selectAllProfesores($connection);
             
             include '../view/inicio_clientes.php';
 
         }elseif($_SESSION['tipo_usuario']=="Profesor"){//Login Profesor
-
-            $puntos=cliente::selectCliente($connection, 1, "Puntos"); // El id del cliente se recogerá por Session.
-            $lista_profesores=profesor::selectAllProfesores($connection);
+            $lista_reservas=reserva::selectReservasProfe($connection, $_SESSION['id']);
 
             include '../view/inicio_profesores.php';
 
         }elseif($_SESSION['tipo_usuario']=="Administrador"){//Login Administrador
-
-            $puntos=cliente::selectCliente($connection, 1,  "Puntos"); // El id del cliente se recogerá por Session.
+  
             $lista_profesores=profesor::selectAllProfesores($connection);
             $lista_alumnos=cliente::selectAllClientes($connection);
-            $lista_reservas=reserva::selectReservasAll($connection);
 
-            include '../view/panel_admin.php';
+            include '../view/botones_admin(Cambiar_Nombre).php';
 
         }else{
-            header('Location: ../view/login.php?hola=1');
+            header('Location: ../view/login.php');
         }
     }else{
         header('Location: ../view/login.php?action=1');

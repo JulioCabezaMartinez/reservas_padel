@@ -3,28 +3,68 @@
         <!-- style="background-color: #ff8000;" -->
         <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark barra_lateral">
             <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                <a style="cursor: default;" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                    <span><img class="fs-5 d-none d-sm-inline" src="../../../assets/IMG/file.png" style="width: 10rem;" alt=""></span><span>Clases: <?php echo $puntos?><i class="fa-solid fa-table-tennis-paddle-ball mx-2"></i></span> <!-- Esta variable puntos debe de cambiarse por los puntos recogidos en el sesion -->
-                </a>
+                <?php
+                    if($_SESSION["tipo_usuario"]=="Alumno"){
+                ?>
+                    <a style="cursor: default;" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                        <span><img class="fs-5 d-none d-sm-inline" src="../../../assets/IMG/file.png" style="width: 10rem;" alt=""></span><span>Clases: <?php echo $puntos?><i class="fa-solid fa-table-tennis-paddle-ball mx-2"></i></span>
+                    </a>
+                <?php
+                    }else{
+                ?>
+                    <a style="cursor: default;" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                        <span><img class="fs-5 d-none d-sm-inline" src="../../../assets/IMG/file.png" style="width: 10rem;" alt=""></span>
+                    </a>
+                <?php
+                    }
+                ?>
                 <ul class="nav flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                     <li class="nav-item">
+                    <?php
+                        if($_SESSION["tipo_usuario"]=="Administrador"){
+                    ?>
+                        <a href="./actions_administrador.php?action=botones" class="nav-link align-middle px-0">
+                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
+                        </a>
+                    <?php
+                        }elseif($_SESSION["tipo_usuario"]=="Alumno"){
+                    ?>
                         <a href="" class="nav-link align-middle px-0">
                             <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
                         </a>
+                    <?php
+                        }elseif($_SESSION["tipo_usuario"]=="Profesor"){
+                    ?>
+                        <a href="" class="nav-link align-middle px-0">
+                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
+                        </a>
+                    <?php
+                        }
+                    ?>
+                        
                     </li>
                     <li>
 
                         <ul class="nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
+                        <?php
+                        if($_SESSION["tipo_usuario"]=="Administrador"){
+                        ?>
                             <li>
-                                <a href="" class="nav-link px-0"> <span class="d-none d-sm-inline"></span></a>
+                                    <a href="./actions_administrador.php?action=recarga" class="nav-link px-0"> <span class="d-none d-sm-inline">Recargar Clases</span></a>
+                                </li>
+                                <li>
+                                    <a href="./actions_administrador.php?action=mod_horarios" class="nav-link px-0"> <span class="d-none d-sm-inline">Modificar/Añadir Horarios</span></a>
+                                </li>
+                                <li>
+                                    <a href="./actions_administrador.php?action=reservas" class="nav-link px-0"> <span class="d-none d-sm-inline">Gestionar Reservas</span></a>
+                                </li>
+                                <li>
+                                    <a href="./actions_administrador.php?action=dar_alta" class="nav-link px-0"> <span class="d-none d-sm-inline">Dar de alta Usuarios</span></a>
                             </li>
-                            <li class="w-100">
-
-                            </li>
-
-                            <li>
-                                <a href="" class="nav-link px-0"> <span class="d-none d-sm-inline"></span></a>
-                            </li>
+                        <?php
+                        }
+                        ?>
+                            
 
                         </ul>
 

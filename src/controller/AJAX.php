@@ -75,7 +75,7 @@ if(isset($_POST["mode"])){
         break;
 
         case "pagar_reserva":
-            $pago=cliente::updateCliente($connection, "Puntos", $_SESSION['id'], puntos:$_POST['puntos']);
+            $pago=cliente::updateCliente($connection, "Puntos_reserva", $_SESSION['id'], puntos:$_POST['puntos']);
 
             if($pago){
                 $reserva=reserva::insertReserva($connection, $_POST["id_profesor"], $_SESSION["id"], $_POST["id_horario"], $_POST['fecha']);
