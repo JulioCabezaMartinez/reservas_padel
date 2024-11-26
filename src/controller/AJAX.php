@@ -17,9 +17,9 @@ if(isset($_POST["mode"])){
 
             foreach($lista_horarios as $horario){
                 if(horario::compruebaDia($connection, $_POST["fecha"], $horario["id"])){
-                    echo '<button id="btn_horario_'.$horario["id"].'" class="btn btn-outline-primary btn_hora">'.$horario["hora_inicio"].'/'.$horario["hora_final"].'</button>';
+                    echo '<span id="btn_horario_'.$horario["id"].'" style="height: fit-content;" class="btn btn-outline-primary btn_hora w-100">'.$horario["hora_inicio"].'/'.$horario["hora_final"].'</span>';
                 }else{
-                    echo '<button class="btn btn-secondary btn_hora" disabled>'.$horario["hora_inicio"].'/'.$horario["hora_final"].'</button>';
+                    echo '<span class="btn btn-secondary btn_hora w-100" style="height: fit-content;" disabled>'.$horario["hora_inicio"].'/'.$horario["hora_final"].'</span>';
                 }
             }
         break;
@@ -118,7 +118,7 @@ if(isset($_POST["mode"])){
         break;
 
         case "modificacion_reserva":
-            $reserva=reserva::updateReserva($connection, $_POST['id_reserva'], id_horario:$_POST['id_horario'], fecha:$_POST['fecha']);
+            $reserva=reserva::updateReserva($connection, $_POST["tipo_update"], $_POST['id_reserva'], id_horario:$_POST['id_horario'], fecha:$_POST['fecha']);
 
             if($reserva){
                 echo "Modificación Correcta";

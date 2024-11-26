@@ -63,10 +63,20 @@
                             </li>
                         <?php
                         }elseif($_SESSION["tipo_usuario"]=="Profesor"){
+                            if(reserva::detectaModificacion($connection, "profesor", id_profesor:$_SESSION['id'])){
                         ?>
                             <li>
-                                <a href="./actions_profesor.php?action=horarios" class="nav-link px-0"> <span class="d-none d-sm-inline">Mis Horarios</span></a>
+                                <a href="./actions_profesor.php?action=horarios" class="nav-link px-0"><span class="d-none d-sm-inline">Mis Horarios</span><span style="border-radius: 50%; background-color: red;"><i class="fa-solid fa-exclamation" style="color: #ffffff;"></i></span></a>
                             </li>
+                        <?php
+                            }else{
+                        ?>
+                            <li>
+                                <a href="./actions_profesor.php?action=horarios" class="nav-link px-0"><span class="d-none d-sm-inline">Mis Horarios</span></a>
+                            </li>
+                        <?php
+                            }
+                        ?>
                             <li>
                                 <a href="./actions_profesor.php?action=reservas" class="nav-link px-0"> <span class="d-none d-sm-inline">Mis Clases</span></a>
                             </li>
@@ -74,11 +84,27 @@
                         }elseif($_SESSION["tipo_usuario"]=="Alumno"){
                         ?>
                             <li>
+                            
+
                                 <a href="./actions_alumno.php?action=reserva_clase" class="nav-link px-0"> <span class="d-none d-sm-inline">Reservar Clase</span></a>
                             </li>
+                        <?php
+                            $busqueda=reserva::detectaModificacion($connection, "alumno", id_cliente:$_SESSION['id']);
+                            if($busqueda){
+                        ?>
                             <li>
-                                <a href="./actions_alumno.php?action=reservas" class="nav-link px-0"> <span class="d-none d-sm-inline">Mis Clases</span></a>
+                                <a href="./actions_alumno.php?action=reservas" class="nav-link px-0"><span class="ml-2" style="border-radius: 50%; background-color: red;"><i class="fa-solid fa-exclamation" style="color: #ffffff; width: 20px; text-align: center;"></i></span> <span class="d-none d-sm-inline">Mis Clases</span></a>
                             </li>
+                        <?php
+                            }else{
+                        ?>
+                            <li>
+                            <a href="./actions_alumno.php?action=reservas" class="nav-link px-0"> <span class="d-none d-sm-inline">Mis Clases</span></a>
+
+                            </li>
+                        <?php
+                            }
+                        ?>
                         <?php
                         }
                         ?>
