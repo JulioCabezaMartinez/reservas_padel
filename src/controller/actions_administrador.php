@@ -10,7 +10,7 @@ require_once '../model/reserva.php';
 switch($_GET["action"]){
     case 'botones':
 
-        include '../view/botones_admin(Cambiar_Nombre).php';
+        include '../view/botones_admin.php';
     break;
     case "recarga":
         $lista_alumnos=cliente::selectAllClientes($connection);

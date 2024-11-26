@@ -59,10 +59,9 @@ require_once "../view/Templates/inicio.inc.php";
     </div>
     <!-- Modal MODIFICAR Horario -->
 
-        <h1>Bienvenid@, <span></span></h1>
-        <p>Desde aqui puede gestionar sus clases y horarios:</h3>
+        <h1>Bienvenid@, <span><?php echo $_SESSION['nombre'] ?></span></h1>
 
-        <h2>Creación de horarios</h2>
+        <h3>Creación de horarios</h3>
         <div>
         <label class="form-label" for="dia">Dia:</label>
             <select name="dia" id="dia">
@@ -86,7 +85,7 @@ require_once "../view/Templates/inicio.inc.php";
         <hr>
         <!-- Mis horarios -->
         <div> 
-            <h2>Mis Horarios</h2>
+            <h3>Mis Horarios</h3>
             <table class="table">
                 <tr>
                     <th scope="col">Dia</th>
@@ -111,39 +110,6 @@ require_once "../view/Templates/inicio.inc.php";
             </table>
         </div>
         <hr>
-        <!-- Ver Reservas -->
-        <div>
-            <h2>Ver Reservas</h2>
-            <table class="table">
-                <tr>
-                    <th scope="col">Fecha</th>
-                    <th>Hora Inicio</th>
-                    <th>Hora Final</th>
-                    <th>Alumno</th>
-                    <th>Acciones</th>
-                </tr>
-                <tbody>
-                    <?php
-
-                    foreach ($lista_reservas as $reserva) {
-                        $horario = horario::selectHorario($connection, $reserva["id_horario"]);
-                        $cliente = cliente::selectCliente($connection, $reserva["id_cliente"], "Todo");
-                    ?>
-                        <tr>
-                            <td><?php echo $reserva["fecha"] ?></td>
-                            <td><?php echo $horario["hora_inicio"] ?></td><!-- Deberia cambiar de array Dinamico a Objecto -->
-                            <td><?php echo $horario["hora_final"] ?></td><!-- Deberia cambiar de array Dinamico a Objecto -->
-                            <td><?php echo $cliente->nombre . " " . $cliente->apellidos ?></td>
-
-                            <!-- Recojo aqui el id del cliente y de la reserva para modificarlo -->
-                            <td><button id="btn_<?php echo $reserva["id_reserva"] ?>" class="btn_modificar_reserva btn btn-primary"><i class="fa-solid fa-pen me-2"></i>Modificar reserva</button></td>
-                        </tr>
-                    <?php
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </div>
     </main>
 
     <script>

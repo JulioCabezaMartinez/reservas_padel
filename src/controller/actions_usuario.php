@@ -25,19 +25,20 @@ if(isset($_POST['login'])){
             $puntos=cliente::selectCliente($connection, $_SESSION['id'], "Puntos"); // El id del cliente se recogerá por Session.
             $lista_profesores=profesor::selectAllProfesores($connection);
             
-            include '../view/inicio_clientes.php';
+            include '../view/botones_alumno.php';
 
         }elseif($_SESSION['tipo_usuario']=="Profesor"){//Login Profesor
+            $lista_horarios=horario::selectHorarioProfesor($connection, $_SESSION["id"]);
             $lista_reservas=reserva::selectReservasProfe($connection, $_SESSION['id']);
 
-            include '../view/inicio_profesores.php';
+            include '../view/botones_profesor.php';
 
         }elseif($_SESSION['tipo_usuario']=="Administrador"){//Login Administrador
   
             $lista_profesores=profesor::selectAllProfesores($connection);
             $lista_alumnos=cliente::selectAllClientes($connection);
 
-            include '../view/botones_admin(Cambiar_Nombre).php';
+            include '../view/botones_admin.php';
 
         }else{
             header('Location: ../view/login.php');

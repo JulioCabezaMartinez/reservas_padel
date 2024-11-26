@@ -24,19 +24,19 @@
                         if($_SESSION["tipo_usuario"]=="Administrador"){
                     ?>
                         <a href="./actions_administrador.php?action=botones" class="nav-link align-middle px-0">
-                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
+                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Panel Administrador</span>
                         </a>
                     <?php
                         }elseif($_SESSION["tipo_usuario"]=="Alumno"){
                     ?>
-                        <a href="" class="nav-link align-middle px-0">
-                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
+                        <a href="./actions_alumno.php?action=botones" class="nav-link align-middle px-0">
+                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Panel Alumno</span>
                         </a>
                     <?php
                         }elseif($_SESSION["tipo_usuario"]=="Profesor"){
                     ?>
-                        <a href="" class="nav-link align-middle px-0">
-                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
+                        <a href="./actions_profesor.php?action=botones" class="nav-link align-middle px-0">
+                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Panel Profesor</span>
                         </a>
                     <?php
                         }
@@ -50,16 +50,34 @@
                         if($_SESSION["tipo_usuario"]=="Administrador"){
                         ?>
                             <li>
-                                    <a href="./actions_administrador.php?action=recarga" class="nav-link px-0"> <span class="d-none d-sm-inline">Recargar Clases</span></a>
-                                </li>
-                                <li>
-                                    <a href="./actions_administrador.php?action=mod_horarios" class="nav-link px-0"> <span class="d-none d-sm-inline">Modificar/Añadir Horarios</span></a>
-                                </li>
-                                <li>
-                                    <a href="./actions_administrador.php?action=reservas" class="nav-link px-0"> <span class="d-none d-sm-inline">Gestionar Reservas</span></a>
-                                </li>
-                                <li>
-                                    <a href="./actions_administrador.php?action=dar_alta" class="nav-link px-0"> <span class="d-none d-sm-inline">Dar de alta Usuarios</span></a>
+                                <a href="./actions_administrador.php?action=recarga" class="nav-link px-0"> <span class="d-none d-sm-inline">Recargar Clases</span></a>
+                            </li>
+                            <li>
+                                <a href="./actions_administrador.php?action=mod_horarios" class="nav-link px-0"> <span class="d-none d-sm-inline">Modificar/Añadir Horarios</span></a>
+                            </li>
+                            <li>
+                                <a href="./actions_administrador.php?action=reservas" class="nav-link px-0"> <span class="d-none d-sm-inline">Gestionar Reservas</span></a>
+                            </li>
+                            <li>
+                                <a href="./actions_administrador.php?action=dar_alta" class="nav-link px-0"> <span class="d-none d-sm-inline">Dar de alta Usuarios</span></a>
+                            </li>
+                        <?php
+                        }elseif($_SESSION["tipo_usuario"]=="Profesor"){
+                        ?>
+                            <li>
+                                <a href="./actions_profesor.php?action=horarios" class="nav-link px-0"> <span class="d-none d-sm-inline">Mis Horarios</span></a>
+                            </li>
+                            <li>
+                                <a href="./actions_profesor.php?action=reservas" class="nav-link px-0"> <span class="d-none d-sm-inline">Mis Clases</span></a>
+                            </li>
+                        <?php
+                        }elseif($_SESSION["tipo_usuario"]=="Alumno"){
+                        ?>
+                            <li>
+                                <a href="./actions_alumno.php?action=reserva_clase" class="nav-link px-0"> <span class="d-none d-sm-inline">Reservar Clase</span></a>
+                            </li>
+                            <li>
+                                <a href="./actions_alumno.php?action=reservas" class="nav-link px-0"> <span class="d-none d-sm-inline">Mis Clases</span></a>
                             </li>
                         <?php
                         }
@@ -96,7 +114,7 @@
                         <span class="d-none d-sm-inline mx-1"><?php echo $_SESSION["nombre"]." ".$_SESSION["apellidos"]?></span> <!-- Aqui tendría que coger la info de la sesion iniciada = -->
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                        <li><a class="dropdown-item" href="../../../src/view/cambiar_pass.php">Cambiar Contraseña</a></li>
+                        <!-- <li><a class="dropdown-item" href="../../../src/view/cambiar_pass.php">Cambiar Contraseña</a></li> -->
                         <li><a class="dropdown-item" href="../../../src/controller/actions_usuario.php?action=cerrar">Cerrar Sesion</a></li>
                     </ul>
                 </div>

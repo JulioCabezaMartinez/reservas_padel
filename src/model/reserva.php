@@ -78,4 +78,14 @@ class reserva{
         }
     }
 
+    public static function updateReserva(mysqli $connection, $id_reserva, $id_cliente=null, $id_horario=null, $id_profesor=null, $fecha=null){
+        $result=$connection->query("UPDATE reservas SET id_horario=".$id_horario.", fecha='".$fecha."' WHERE id_reserva=".$id_reserva.";");
+
+        if($result!=false){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 }

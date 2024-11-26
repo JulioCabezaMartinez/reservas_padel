@@ -24,6 +24,20 @@ if(isset($_POST["mode"])){
             }
         break;
 
+        case "muestra_horas_profesor":
+
+            $lista_horarios=horario::selectHorarioProfesorFecha($connection, $_SESSION["id"], $_POST["dia"]);
+
+            foreach($lista_horarios as $horario){
+                if(horario::compruebaDia($connection, $_POST["fecha"], $horario["id"])){
+                    echo '<span id="btn_horario_'.$horario["id"].'" style="height: fit-content;" class="btn btn-outline-primary btn_hora w-100">'.$horario["hora_inicio"].'/'.$horario["hora_final"].'</span>';
+                }else{
+                    echo '<span class="btn btn-secondary btn_hora w-100" style="height: fit-content;" disabled>'.$horario["hora_inicio"].'/'.$horario["hora_final"].'</span>';
+                }
+            }
+
+        break;
+
         case "recarga_bonos":
             $recarga=cliente::updateCliente($connection, "Puntos", DNI:$_POST['alumno'], puntos:$_POST['bonos']);
 
@@ -74,6 +88,18 @@ if(isset($_POST["mode"])){
             }
         break;
 
+        case "creacion_horario_profe":
+
+            $inserccion=horario::insertHorario($connection, $_SESSION['id'], $_POST['dia'], $_POST['hora_inicio'], $_POST['hora_final']);
+            
+            if($inserccion){
+                echo "Insercción Correcta";
+            }else{
+                echo "Fallo en la insercción";
+            }
+
+        break;
+
         case "pagar_reserva":
             $pago=cliente::updateCliente($connection, "Puntos_reserva", $_SESSION['id'], puntos:$_POST['puntos']);
 
@@ -88,6 +114,16 @@ if(isset($_POST["mode"])){
                     
             }else{
                 echo "Fallo update";    
+            }
+        break;
+
+        case "modificacion_reserva":
+            $reserva=reserva::updateReserva($connection, $_POST['id_reserva'], id_horario:$_POST['id_horario'], fecha:$_POST['fecha']);
+
+            if($reserva){
+                echo "Modificación Correcta";
+            }else{
+                echo "Fallo de Modificación";
             }
         break;
         
