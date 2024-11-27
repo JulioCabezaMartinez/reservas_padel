@@ -105,3 +105,13 @@ body {
     margin-left: 10px;
     margin-right: 10px;
 }
+
+/* Panel lateral */
+
+.color_panel{
+    color: #efefee !important;
+}
+
+.color_panel:active{
+    color: aqua !important;
+}

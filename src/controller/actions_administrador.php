@@ -30,9 +30,15 @@ switch($_GET["action"]){
         include '../view/reservas_realizadas.php';
     break;
 
-    case 'dar_alta':
+    case 'dar_alta_profesor':
 
-        include '../view/dar_alta.php';
+        include '../view/dar_alta_profesor.php';
+
+    break;
+
+    case 'dar_alta_alumno':
+
+        include '../view/dar_alta_alumno.php';
 
     break;
 }

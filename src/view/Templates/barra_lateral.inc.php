@@ -24,19 +24,19 @@
                         if($_SESSION["tipo_usuario"]=="Administrador"){
                     ?>
                         <a href="./actions_administrador.php?action=botones" class="nav-link align-middle px-0">
-                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Panel Administrador</span>
+                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline color_panel">Panel Administrador</span>
                         </a>
                     <?php
                         }elseif($_SESSION["tipo_usuario"]=="Alumno"){
                     ?>
                         <a href="./actions_alumno.php?action=botones" class="nav-link align-middle px-0">
-                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Panel Alumno</span>
+                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline color_panel">Panel Alumno</span>
                         </a>
                     <?php
                         }elseif($_SESSION["tipo_usuario"]=="Profesor"){
                     ?>
                         <a href="./actions_profesor.php?action=botones" class="nav-link align-middle px-0">
-                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Panel Profesor</span>
+                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline color_panel">Panel Profesor</span>
                         </a>
                     <?php
                         }
@@ -50,35 +50,38 @@
                         if($_SESSION["tipo_usuario"]=="Administrador"){
                         ?>
                             <li>
-                                <a href="./actions_administrador.php?action=recarga" class="nav-link px-0"> <span class="d-none d-sm-inline">Recargar Clases</span></a>
+                                <a href="./actions_administrador.php?action=recarga" class="nav-link px-0 color_panel"> <span class="d-none d-sm-inline"><i class="fa-solid fa-plus"></i><i class="fa-solid fa-table-tennis-paddle-ball mx-2"></i>Recargar Clases</span></a>
                             </li>
                             <li>
-                                <a href="./actions_administrador.php?action=mod_horarios" class="nav-link px-0"> <span class="d-none d-sm-inline">Modificar/Añadir Horarios</span></a>
+                                <a href="./actions_administrador.php?action=mod_horarios" class="nav-link px-0 color_panel"> <span class="d-none d-sm-inline"><i class="fa-solid fa-calendar-days"></i><i class="fa-solid fa-pen"></i> Modificar/Añadir Horarios</span></a>
                             </li>
                             <li>
-                                <a href="./actions_administrador.php?action=reservas" class="nav-link px-0"> <span class="d-none d-sm-inline">Gestionar Reservas</span></a>
+                                <a href="./actions_administrador.php?action=reservas" class="nav-link px-0 color_panel"> <span class="d-none d-sm-inline"><i class="fa-solid fa-book-bookmark"></i> Gestionar Reservas</span></a>
                             </li>
                             <li>
-                                <a href="./actions_administrador.php?action=dar_alta" class="nav-link px-0"> <span class="d-none d-sm-inline">Dar de alta Usuarios</span></a>
+                                <a href="./actions_administrador.php?action=dar_alta_alumno" class="nav-link px-0 color_panel"> <span class="d-none d-sm-inline"><i class="fa-solid fa-user-plus"></i> Dar de alta Alumno</span></a>
+                            </li>
+                            <li>
+                                <a href="./actions_administrador.php?action=dar_alta_profesor" class="nav-link px-0 color_panel"> <span class="d-none d-sm-inline"><i class="fa-solid fa-user-plus"></i> Dar de alta Profesor</span></a>
                             </li>
                         <?php
                         }elseif($_SESSION["tipo_usuario"]=="Profesor"){
                             if(reserva::detectaModificacion($connection, "profesor", id_profesor:$_SESSION['id'])){
                         ?>
                             <li>
-                                <a href="./actions_profesor.php?action=horarios" class="nav-link px-0"><span class="d-none d-sm-inline">Mis Horarios</span><span style="border-radius: 50%; background-color: red;"><i class="fa-solid fa-exclamation" style="color: #ffffff;"></i></span></a>
+                                <a href="./actions_profesor.php?action=horarios" class="nav-link px-0 color_panel"><span class="d-none d-sm-inline">Mis Horarios</span><span style="border-radius: 50%; background-color: red;"><i class="fa-solid fa-exclamation" style="color: #ffffff;"></i></span></a>
                             </li>
                         <?php
                             }else{
                         ?>
                             <li>
-                                <a href="./actions_profesor.php?action=horarios" class="nav-link px-0"><span class="d-none d-sm-inline">Mis Horarios</span></a>
+                                <a href="./actions_profesor.php?action=horarios" class="nav-link px-0 color_panel"><span class="d-none d-sm-inline">Mis Horarios</span></a>
                             </li>
                         <?php
                             }
                         ?>
                             <li>
-                                <a href="./actions_profesor.php?action=reservas" class="nav-link px-0"> <span class="d-none d-sm-inline">Mis Clases</span></a>
+                                <a href="./actions_profesor.php?action=reservas" class="nav-link px-0 color_panel"> <span class="d-none d-sm-inline">Mis Clases</span></a>
                             </li>
                         <?php
                         }elseif($_SESSION["tipo_usuario"]=="Alumno"){
@@ -86,7 +89,7 @@
                             <li>
                             
 
-                                <a href="./actions_alumno.php?action=reserva_clase" class="nav-link px-0"> <span class="d-none d-sm-inline">Reservar Clase</span></a>
+                                <a href="./actions_alumno.php?action=reserva_clase" class="nav-link px-0 color_panel"> <span class="d-none d-sm-inline">Reservar Clase</span></a>
                             </li>
                         <?php
                             $busqueda=reserva::detectaModificacion($connection, "alumno", id_cliente:$_SESSION['id']);
@@ -99,7 +102,7 @@
                             }else{
                         ?>
                             <li>
-                            <a href="./actions_alumno.php?action=reservas" class="nav-link px-0"> <span class="d-none d-sm-inline">Mis Clases</span></a>
+                            <a href="./actions_alumno.php?action=reservas" class="nav-link px-0 color_panel"> <span class="d-none d-sm-inline">Mis Clases</span></a>
 
                             </li>
                         <?php
