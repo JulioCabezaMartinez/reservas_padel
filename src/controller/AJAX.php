@@ -117,6 +117,25 @@ if(isset($_POST["mode"])){
             }
         break;
 
+        case "pagar_reserva_admin":
+
+            $pago=cliente::updateCliente($connection, "Puntos_reserva", $_POST['id_alumno'], puntos:$_POST['puntos']);
+
+            if($pago){
+                $reserva=reserva::insertReserva($connection, $_POST["id_profesor"], $_POST['id_alumno'], $_POST["id_horario"], $_POST['fecha']);
+
+                if($reserva){
+                    echo "Update Correcto";
+                }else{
+                    echo "Fallo al hacer reserva";
+                }
+                    
+            }else{
+                echo "Fallo update";    
+            }
+
+        break;
+
         case "modificacion_reserva":
             $reserva=reserva::updateReserva($connection, $_POST["tipo_update"], $_POST['id_reserva'], id_horario:$_POST['id_horario'], fecha:$_POST['fecha']);
 
@@ -142,6 +161,60 @@ if(isset($_POST["mode"])){
             }else{
                 echo "Fallo de Registro";
             }
+
+        break;
+
+        case "update_profesor":
+            $update=profesor::updateProfesor($connection, "todo-pass", $_POST['id_profesor'], $_POST['nombre_profesor'], $_POST['apellidos_profesor'], $_POST['DNI_profesor'], $_POST["correo_profesor"]);
+
+            if($update){
+                echo "Update Correcto";
+            }else{
+                echo "Fallo en Update";
+            }
+        break;
+
+        case "update_alumno":
+            $update=cliente::updateCliente($connection, 'todo-pass', $_POST['id_alumno'], $_POST['nombre_alumno'], $_POST["apellidos_alumno"], $_POST["puntos_alumno"], $_POST["correo_alumno"], DNI:$_POST["DNI_alumno"]);
+            
+            if($update){
+                echo "Update Correcto";
+            }else{
+                echo "Fallo en Update";
+            }
+        break;
+
+        case "buscador_alumnos":
+            $lista_alumnos=cliente::selectClientesBuscador($connection, $_POST["buscador"]);
+
+            if($lista_alumnos!=false){
+
+                foreach($lista_alumnos as $alumno){
+                    echo '<tr>
+                    <td>'.$alumno->nombre.'</td>
+                    <td>'.$alumno->apellidos.'</td>
+                    <td>'.$alumno->DNI.'</td>
+                    <td>'.$alumno->puntos.'</td>
+                    <td>'.$alumno->getCorreo().'</td>
+                    <td><button data-datos="'.$alumno->nombre.'_'.$alumno->apellidos.'_'.$alumno->DNI.'" class="btn btn-outline-primary btn-seleccionar">Seleccionar</button></td>
+
+                </tr>';
+                }
+            }else{
+                echo "<tr></tr>";
+            }
+        break;
+
+        case "puntos_alumno_reserva_admin":
+
+            echo $puntos=cliente::selectCliente($connection, "Puntos_DNI", DNI:$_POST['DNI_alumno']);
+
+        break;
+
+        case "recoger_id_alumno_admin":
+
+            echo $id=cliente::selectCliente($connection, "id_DNI", DNI:$_POST['DNI_alumno']);
+
 
         break;
     }

@@ -34,7 +34,7 @@ require_once "../view/Templates/inicio.inc.php";
 
             foreach($lista_reservas as $reserva){
                 $horario=horario::selectHorario($connection, $reserva["id_horario"]);
-                $cliente=cliente::selectCliente($connection, $reserva["id_cliente"], "Todo");
+                $cliente=cliente::selectCliente($connection, "Todo", $reserva["id_cliente"]);
                 $profesor=profesor::selectProfesor($connection, $reserva["id_profesor"])
 
             ?>
@@ -52,8 +52,14 @@ require_once "../view/Templates/inicio.inc.php";
             ?>
             </tbody>
             </table>
+
+            <footer>
+                <h1>Aplicación web desarrollada por <a style="text-decoration: none; color: #1A73E8" href="https://dondigital.es">DonDigital.es</a></h1>
+                <img id="logo_barra" src="../../../assets/IMG/Logo_DonDigital_barra2.svg">
+            </footer>
+
     </main>
-        <hr>
+        
 
     <script>
         //TimePicker

@@ -173,7 +173,13 @@ require_once "../view/Templates/inicio.inc.php";
     </div>
     <!-- Modal de Confirmación envio de correo -->
 
-    <img class="DonDigitalLogo" src='../../assets/IMG/Imagotipo_Color_Negativo.webp'>
+    <div class="d-flex justify-content-center">
+        <img class="DonDigitalLogo" style="width: 13%;" src='../../../assets/IMG/Logo_padel.jpg'>
+        <img src="../../../assets/IMG/Logo_DonDigital_principal.svg" style="width: 25%;" alt="">
+    </div>
+    <div class="d-flex justify-content-center">
+        <h1>Aplicación web desarrollada por <a style="text-decoration: none; color: #1A73E8" href="https://dondigital.es">DonDigital.es</a></h1>
+    </div>
     <br><br>
     <label style="font-size: 150%;font-weight: bold;">LOGIN</label>
     <div class="registro_login">

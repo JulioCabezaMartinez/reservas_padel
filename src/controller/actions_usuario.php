@@ -7,6 +7,11 @@ require_once '../model/profesor.php';
 require_once '../model/BuscadorDB.php';
 require_once '../model/reserva.php';
 
+// Validar conexión antes de usarla
+if (!isset($connection)) {
+    die("Error: Conexión no inicializada.");
+}
+
 if(isset($_POST["register"])){
     $registro=usuario::registrarUsuario($connection, $_POST["correo"], $_POST["pass"], $_POST["confirm"], $_POST["nombre"], $_POST['apellidos'], $_POST["tipo"], DNI:$_POST['DNI']);
     if(!is_string($registro)){
@@ -22,7 +27,7 @@ if(isset($_POST['login'])){
     if($login){
         if($_SESSION['tipo_usuario']=="Alumno"){//Login Alumno
             $lista_reservas=reserva::selectReservasAlumno($connection, $_SESSION['id']);
-            $puntos=cliente::selectCliente($connection, $_SESSION['id'], "Puntos"); // El id del cliente se recogerá por Session.
+            $puntos=cliente::selectCliente($connection, "Puntos", $_SESSION['id']);
             $lista_profesores=profesor::selectAllProfesores($connection);
             
             include '../view/botones_alumno.php';

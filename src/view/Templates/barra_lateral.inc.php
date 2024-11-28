@@ -7,13 +7,13 @@
                     if($_SESSION["tipo_usuario"]=="Alumno"){
                 ?>
                     <a style="cursor: default;" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                        <span><img class="fs-5 d-none d-sm-inline" src="../../../assets/IMG/file.png" style="width: 10rem;" alt=""></span><span>Clases: <?php echo $puntos?><i class="fa-solid fa-table-tennis-paddle-ball mx-2"></i></span>
+                        <span><img class="fs-5 d-none d-sm-inline" src="../../../assets/IMG/Logo_padel.jpg" style="width: 10rem;" alt=""></span><span>Clases: <?php echo $puntos?><i class="fa-solid fa-table-tennis-paddle-ball mx-2"></i></span>
                     </a>
                 <?php
                     }else{
                 ?>
                     <a style="cursor: default;" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                        <span><img class="fs-5 d-none d-sm-inline" src="../../../assets/IMG/file.png" style="width: 10rem;" alt=""></span>
+                        <span><img class="fs-5 d-none d-sm-inline" src="../../../assets/IMG/Logo_padel.jpg" style="width: 10rem;" alt=""></span>
                     </a>
                 <?php
                     }
@@ -56,13 +56,22 @@
                                 <a href="./actions_administrador.php?action=mod_horarios" class="nav-link px-0 color_panel"> <span class="d-none d-sm-inline"><i class="fa-solid fa-calendar-days"></i><i class="fa-solid fa-pen"></i> Modificar/Añadir Horarios</span></a>
                             </li>
                             <li>
-                                <a href="./actions_administrador.php?action=reservas" class="nav-link px-0 color_panel"> <span class="d-none d-sm-inline"><i class="fa-solid fa-book-bookmark"></i> Gestionar Reservas</span></a>
+                                <a href="./actions_administrador.php?action=crear_reserva" class="nav-link px-0 color_panel"> <span class="d-none d-sm-inline"> Crear Reserva</span></a>
+                            </li>
+                            <li>
+                                <a href="./actions_administrador.php?action=reservas" class="nav-link px-0 color_panel"> <span class="d-none d-sm-inline"><i class="fa-solid fa-book-bookmark"></i> Ver Reservas</span></a>
                             </li>
                             <li>
                                 <a href="./actions_administrador.php?action=dar_alta_alumno" class="nav-link px-0 color_panel"> <span class="d-none d-sm-inline"><i class="fa-solid fa-user-plus"></i> Dar de alta Alumno</span></a>
                             </li>
                             <li>
                                 <a href="./actions_administrador.php?action=dar_alta_profesor" class="nav-link px-0 color_panel"> <span class="d-none d-sm-inline"><i class="fa-solid fa-user-plus"></i> Dar de alta Profesor</span></a>
+                            </li>
+                            <li>
+                                <a href="./actions_administrador.php?action=ver_alumnos" class="nav-link px-0 color_panel"> <span class="d-none d-sm-inline"><i class="fa-solid fa-user-group"></i> Ver Alumnos</span></a>
+                            </li>
+                            <li>
+                                <a href="./actions_administrador.php?action=ver_profesores" class="nav-link px-0 color_panel"> <span class="d-none d-sm-inline"><i class="fa-solid fa-user-group"></i> Ver Profesores</span></a>
                             </li>
                         <?php
                         }elseif($_SESSION["tipo_usuario"]=="Profesor"){
@@ -111,35 +120,16 @@
                         <?php
                         }
                         ?>
-                            
-
                         </ul>
 
-                    <li>
-                        <a href="" class="nav-link px-0"> <span class="d-none d-sm-inline"></span></a>
-                    </li>
-                    <li class="nav-item">
+                    
+                        <a href="https://dondigital.es"><img class="mt-5 pt-5" id="logo_barra" src="../../../assets/IMG/Logo_DonDigital_barra2.svg"></a>
 
-                        <a href="" class="nav-link align-middle px-0">
-                            <span class="ms-1 d-none d-sm-inline">
-                                <span class="circulo_barraLateral">
-
-                                </span>
-                            </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" class="nav-link align-middle px-0">
-                            <span class="ms-1 d-none d-sm-inline"></span>
-                        </a>
-                    </li>
-
-                    </li>
                 </ul>
                 <hr>
                 <div class="dropdown pb-4">
                     <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="../../assets/IMG/donDigital_default.png" alt="hugenerd" width="30" height="30" class="rounded-circle">
+                        <img src="../../../assets/IMG/Logo_padel.jpg" alt="hugenerd" width="30" height="30" class="rounded-circle">
                         <span class="d-none d-sm-inline mx-1"><?php echo $_SESSION["nombre"]." ".$_SESSION["apellidos"]?></span> <!-- Aqui tendría que coger la info de la sesion iniciada = -->
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow">

@@ -115,3 +115,24 @@ body {
 .color_panel:active{
     color: aqua !important;
 }
+
+.dos_columnas{
+    display: grid;
+
+    grid-template-columns: 0.25fr 1fr;
+
+    gap: 20px;
+}
+
+footer{
+    bottom: 10px;    /* Distancia desde la parte inferior de la pantalla */
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+footer img{
+    width: 50%;
+}

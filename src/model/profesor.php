@@ -4,11 +4,13 @@ class profesor extends usuario{
     private String $id_profesor;
     private String $nombre;
     private String $apellidos;
+    private String $DNI;
 
-    public function __construct($nombre, $apellidos, $correo, $pass, $id_profesor=null){
+    public function __construct($nombre, $apellidos, $correo, $pass, $DNI, $id_profesor=null){
         parent::__construct($correo, $pass);
         $this->nombre=$nombre;
         $this->apellidos=$apellidos;
+        $this->DNI=$DNI;
 
         if(!is_null($id_profesor)){
             $this->id_profesor=$id_profesor;
@@ -34,7 +36,7 @@ class profesor extends usuario{
             $linea=$result->fetch_object();
 
             while($linea!=null){
-                $profesor=new profesor($linea->nombre, $linea->apellidos, $linea->correo, $linea->password, $linea->id_profesor);
+                $profesor=new profesor($linea->nombre, $linea->apellidos, $linea->correo, $linea->password,$linea->DNI, $linea->id_profesor);
                 array_push($lista_profesores, $profesor);
                 $linea=$result->fetch_object();
             }
@@ -58,4 +60,21 @@ class profesor extends usuario{
         }
     }
 
+    public static function updateProfesor(mysqli $connection, $tipo_update, $id_profesor, $nombre_profesor=null, $apellidos_profesor=null, $DNI_profesor=null, $correo_profesor=null){
+        $query='';
+
+        switch($tipo_update){
+            case "todo-pass":
+                $query="UPDATE profesores set nombre='".$nombre_profesor."', apellidos='".$apellidos_profesor."', DNI='".$DNI_profesor."', correo='".$correo_profesor."' WHERE id_profesor='".$id_profesor."';";
+            break;
+        }
+
+        $result=$connection->query($query);
+
+        if($result!=false){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

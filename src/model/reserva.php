@@ -8,7 +8,7 @@ class reserva{
         if($result!=false){
             return true;
         }else{
-            return false;
+            return mysqli_error($connection);
         }
     }
 
