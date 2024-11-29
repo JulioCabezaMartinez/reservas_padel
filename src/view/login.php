@@ -2,10 +2,29 @@
 
 session_start();
 
-// if (!empty($_SESSION)) {
-//     header("Location:../../../src/controller/actions_usuario.php?action=0");
-//     die();
-// }
+if (!empty($_SESSION)) {
+    if($_SESSION["tipo_usuario"]=="Administrador"){
+        header("Location:/src/controller/actions_administrador.php?action=botones");
+        die();
+    }elseif($_SESSION["tipo_usuario"]=="Profesor"){
+        header("Location:/src/controller/actions_profesor.php?action=botones");
+        die();
+    }elseif($_SESSION["tipo_usuario"]=="Alumno"){
+        header("Location:/src/controller/actions_alumno.php?action=botones");
+        die();
+    }else{ //En caso de que se intenté entrar con un tipo de usuario que no corresponde a ninguno de los 3 tipos establecidos
+        session_unset();
+        unset($_SESSION);
+        session_destroy();
+
+        if (isset($_COOKIE[session_name()])) {
+            setcookie(session_name(), '', time()-42000, '/');
+        }
+
+        header("Location:/src/view/login.php");
+        die();
+    }
+}
 $titulo="login";
 require_once "../view/Templates/inicio.inc.php";
 

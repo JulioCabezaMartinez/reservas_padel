@@ -56,7 +56,7 @@ require_once "../view/Templates/inicio.inc.php";
                     <div id="datepicker"></div>
                     <div class="row row-cols-3 m-4" id="horas"></div>
                 </div>
-                <button id="btn_select_horario" class="btn btn-primary d-none" style="width: fit-content; height:fit-content;">Seleccionar Fecha y Hora</button>
+                <!-- <button id="btn_select_horario" class="btn btn-primary d-none" style="width: fit-content; height:fit-content;">Seleccionar Fecha y Hora</button> -->
                 <br>
                 <br>
                 <button id="btn_seleccionar_horario" class="btn btn-success">Siguiente</button>
@@ -105,10 +105,9 @@ require_once "../view/Templates/inicio.inc.php";
         </div>
         <hr>
         
-        <footer>
-            <h1>Aplicación web desarrollada por <a style="text-decoration: none; color: #1A73E8" href="https://dondigital.es">DonDigital.es</a></h1>
-            <img id="logo_barra" src="../../../assets/IMG/Logo_DonDigital_barra2.svg">
-        </footer>
+        <?php
+            include '../view/Templates/footer.inc.php';
+        ?>
     </main>
     <script>
         
@@ -127,7 +126,7 @@ require_once "../view/Templates/inicio.inc.php";
             $("#datepicker").datepicker({
                 onSelect: function(dateText, inst){
                     $("#fecha_selected").text(dateText);
-                    $("#btn_select_horario").removeClass("d-none");
+
                     $("#hora_text").val("");
 
                     let dateParts = dateText.split("/");
@@ -158,6 +157,10 @@ require_once "../view/Templates/inicio.inc.php";
                 let hora=$(this).text();
                 $("#hora_selected").text(hora);
                 $("#id_horario").text($(this).attr("id").split("_")[2]); //Esto es mejorable debido a que puede generar un fallo humano. (Ponerse al pulsar el boton de siguiente)
+            
+                $("#fecha_text").val($("#fecha_selected").text());
+                $("#hora_text").val($("#hora_selected").text());
+            
             });
 
             $("#btn_select_horario").click(function(){

@@ -131,6 +131,11 @@ class cliente extends usuario{
 
             case 'todo-pass':
                 $query= "UPDATE clientes SET nombre='".$nombre."', apellidos='".$apellidos."', correo='".$correo."', puntos=".$puntos.", DNI='".$DNI."' WHERE id_cliente='".$id_cliente."';";
+            break;
+
+            case 'cambiar_pass':
+                $query="UPDATE clientes SET password='".$password."' WHERE id_cliente='".$id_cliente."';";
+            break;
         }
 
         $result=$connection->query($query);

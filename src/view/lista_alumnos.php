@@ -55,6 +55,35 @@ require_once "../view/Templates/inicio.inc.php";
         </div>
         <!-- Modal MODIFICAR alumno -->
 
+        <!-- Modal CAMBIAR password -->
+        <div class="modal fade" id="modal_modificar_password" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog d-flex justify-content-center">
+                <div class="modal-content w-100">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel3">Modificación de Contraseña</h5>
+                    </div>
+                    <div class="modal-body p-4">
+                        <form>
+                            <div data-mdb-input-init class="form-outline mb-4">
+                                <div>
+                                   <label for="nueva_password">Introduce la nueva Contraseña:</label><br>
+                                   <input type="password" class="form-control" name="nueva_password" id="nueva_password">
+                                   <br>
+                                   <label for="nueva_confirm">Confirme la nueva Contraseña: </label><br>
+                                   <input type="password" class="form-control" name="nueva_confirm" id="nueva_confirm">
+                                   <br>
+                                   <span id="error_pass" class="d-none" style="color: red;">Las contraseñas no coinciden</span>
+                                </div>
+                            </div>
+                            <button id="btn_cerrar_password" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button id="btn_guardar_modificar_password" type="button" class="btn btn-primary w-50" data-dismiss="modal">Modificar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal CAMBIAR password -->
+
         <h2>Lista Alumnos</h2>
             <table class="table">
             <thead>
@@ -80,8 +109,8 @@ require_once "../view/Templates/inicio.inc.php";
                     <td><?php echo $alumno->getCorreo() ?></td>
                     <td>
                         <button id="btn_<?php echo $alumno->id_cliente?>" data-nombre="<?php echo $alumno->nombre ?>" data-apellidos="<?php echo $alumno->apellidos ?>" data-DNI="<?php echo $alumno->DNI ?>" data-correo="<?php echo $alumno->getCorreo() ?>" data-puntos="<?php echo $alumno->puntos ?>" class="btn_modificar_alumno btn btn-primary m-1"><i class="fa-solid fa-pen me-2"></i>Modificar Alumno</button>
-                        <!-- <br>
-                        <button id="btn_<?php echo $alumno->id_cliente?>" class="btn_modificar_password_alumno btn btn-primary m-1"><i class="fa-solid fa-pen me-2"></i>Cambiar Contraseña</button> -->
+                        <br>
+                        <button id="btn_<?php echo $alumno->id_cliente?>" class="btn_modificar_password_alumno btn btn-primary m-1"><i class="fa-solid fa-pen me-2"></i>Cambiar Contraseña</button>
                     </td>
                 </tr>
             <?php
@@ -91,10 +120,9 @@ require_once "../view/Templates/inicio.inc.php";
             </tbody>
             </table>
 
-            <footer>
-                <h1>Aplicación web desarrollada por <a style="text-decoration: none; color: #1A73E8" href="https://dondigital.es">DonDigital.es</a></h1>
-                <img id="logo_barra" src="../../../assets/IMG/Logo_DonDigital_barra2.svg">
-            </footer>
+            <?php
+            include '../view/Templates/footer.inc.php';
+            ?>
     </main>
         
     <script>
@@ -109,6 +137,12 @@ require_once "../view/Templates/inicio.inc.php";
                 $("#clases_modal").val($(this).attr("data-puntos"));
 
                 $("#modal_modificar_alumno").modal("show");
+            });
+
+            $(document).on('click', '.btn_modificar_password_alumno', function(){
+                id_alumno=$(this).attr("id").split('_')[1];
+
+                $("#modal_modificar_password").modal("show");
             });
 
             $("#btn_guardar_modificar_alumno").click(function(){
@@ -136,7 +170,7 @@ require_once "../view/Templates/inicio.inc.php";
                         success: function(data){
                             if(data=="Update Correcto"){
                                 Swal.fire({
-                                title: "alumno modificado",
+                                title: "Alumno modificado",
                                 text: "El alumno"+ nombre_alumno + " "+ apellidos_alumno +" se ha modificado con exito",
                                 icon: "success"
                                 }).then((result)=>{
@@ -156,9 +190,54 @@ require_once "../view/Templates/inicio.inc.php";
                 }
             });
 
+            $("#btn_guardar_modificar_password").click(function(){
+                let nueva_pass=$("#nueva_password").val();
+                let nueva_confirm=$("#nueva_confirm").val();
+
+                if(nueva_pass==nueva_confirm){
+                    $.ajax({
+                        url: "AJAX.php",
+                        method: "POST",
+                        data:{
+                            mode: "cambiar_pass_alumno",
+                            nueva_pass:nueva_pass,
+                            nueva_confirm:nueva_confirm,
+                            id_alumno:id_alumno
+                        },
+                        success:function(data){
+                            if(data=="Update Correcto"){
+                                Swal.fire({
+                                title: "Contraseña Modificada",
+                                text: "La contraseña se ha modificado con exito",
+                                icon: "success"
+                                }).then((result)=>{
+                                    location.reload();
+                                });
+                            }else{
+                                Swal.fire({
+                                title: "Error Servidor",
+                                text: "Ha habido un error en el servidor y no se ha modificado la contraseña",
+                                icon: "error"
+                                }).then((result)=>{
+                                    location.reload();
+                                });
+                            }
+                        }
+                    })
+                }else{
+                    $("#error_pass").removeClass("d-none");
+                }
+
+                
+            });
+
             //Cerrar Modal
             $("#btn_cerrar_modificar").click(function(){
                 $("#modal_modificar_alumno").modal("hide");
+            });
+
+            $("#btn_cerrar_password").click(function(){
+                $("#modal_modificar_password").modal("hide");
             });
         });
     </script>

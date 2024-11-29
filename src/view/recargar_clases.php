@@ -33,9 +33,9 @@ require_once "../view/Templates/inicio.inc.php";
         <span id="error_alumnos" class="d-none" style="color: red;">Debe seleccionar un alumno al que recargar las clases</span>
         <br><br>
         <label>INDIQUE LA CANTIDAD DE BONOS QUE VA AÑADIR: </label>
-        <input class="border rounded" type="number" value="0" name="" id="bonos" max="20" min="0">
+        <input class="border rounded" type="number" value="0" name="" id="bonos" max="20" min="0" style="width: 5%;">
         <br><br>
-        <button id="btn_recargar_bonos" class="btn btn-warning">Recargar</button>
+        <button id="btn_recargar_bonos" class="btn btn-warning btn-diez" style="width: 10%;">Recargar</button>
         <br>
         <hr>
         <table class="table">
@@ -82,10 +82,9 @@ require_once "../view/Templates/inicio.inc.php";
             </tbody>
             </table>
 
-            <footer>
-                <h1>Aplicación web desarrollada por <a style="text-decoration: none; color: #1A73E8" href="https://dondigital.es">DonDigital.es</a></h1>
-                <img id="logo_barra" src="../../../assets/IMG/Logo_DonDigital_barra2.svg">
-            </footer>
+            <?php
+                include '../view/Templates/footer.inc.php';
+            ?>
         </main>
 
     <script>

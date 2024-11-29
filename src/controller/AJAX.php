@@ -217,6 +217,38 @@ if(isset($_POST["mode"])){
 
 
         break;
+
+        case "cambiar_pass_alumno":
+
+            if($_POST["nueva_pass"]==$_POST["nueva_confirm"]){
+                $cambiar_pass=cliente::updateCliente($connection, "cambiar_pass", id_cliente:$_POST["id_alumno"], password:password_hash($_POST["nueva_pass"], PASSWORD_DEFAULT));
+
+                if($cambiar_pass){
+                    echo "Update Correcto";
+                }else{
+                    echo "Fallo en Update";
+                }
+            }else{
+                echo "No coinciden";
+            }
+            
+        break;
+
+        case "cambiar_pass_profesor":
+
+            if($_POST["nueva_pass"]==$_POST["nueva_confirm"]){
+                $cambiar_pass=profesor::updateProfesor($connection, "cambiar_pass", id_profesor:$_POST["id_profesor"], password:password_hash($_POST["nueva_pass"], PASSWORD_DEFAULT));
+
+                if($cambiar_pass){
+                    echo "Update Correcto";
+                }else{
+                    echo "Fallo en Update";
+                }
+            }else{
+                echo "No coinciden";
+            }
+            
+        break;
     }
 }
 

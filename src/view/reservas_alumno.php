@@ -72,7 +72,7 @@ require_once "../view/Templates/inicio.inc.php";
                         <th>Hora Inicio</th>
                         <th>Hora Final</th>
                         <th>Profesor</th>
-                        <th>Acciones</th>
+                        <!-- <th>Acciones</th> -->
                     </thead>
                     <tbody>
                     <?php
@@ -97,7 +97,7 @@ require_once "../view/Templates/inicio.inc.php";
                                 }
                                 ?>
                                 
-                                <td><button id="btn_<?php echo $reserva["id_reserva"] ?>_<?php echo $reserva["id_profesor"] ?>" class="btn_modificar_reserva btn btn-primary"><i class="fa-solid fa-pen me-2"></i>Modificar reserva</button></td>
+                                <!-- <td><button id="btn_<?php echo $reserva["id_reserva"] ?>_<?php echo $reserva["id_profesor"] ?>" class="btn_modificar_reserva btn btn-primary"><i class="fa-solid fa-pen me-2"></i>Modificar reserva</button></td> -->
                             </tr>
                     <?php
                         }
@@ -106,10 +106,9 @@ require_once "../view/Templates/inicio.inc.php";
                 </table>
             </div>
 
-            <footer>
-                <h1>Aplicación web desarrollada por <a style="text-decoration: none; color: #1A73E8" href="https://dondigital.es">DonDigital.es</a></h1>
-                <img id="logo_barra" src="../../../assets/IMG/Logo_DonDigital_barra2.svg">
-            </footer>
+            <?php
+            include '../view/Templates/footer.inc.php';
+            ?>
         </main>
 
         <script>

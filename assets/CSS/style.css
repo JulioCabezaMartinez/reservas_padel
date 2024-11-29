@@ -124,8 +124,23 @@ body {
     gap: 20px;
 }
 
+
+/* Disposicion Main */
+
+main{
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-diez{
+    width: 10%;
+}
+
 footer{
-    bottom: 10px;    /* Distancia desde la parte inferior de la pantalla */
+
+    margin-top: auto;
+
+    margin-bottom: 20px;
 
     display: flex;
     flex-direction: column;
@@ -135,4 +150,129 @@ footer{
 
 footer img{
     width: 50%;
+}
+
+/* Disposiciones Botones */
+
+#admin_butons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+#admin_butons div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 20px;
+    
+}
+
+/* Estilos de DatePicker*/
+
+/* Ajustar el contenedor principal del DatePicker */
+.ui-datepicker {
+    font-family: Arial, sans-serif; /* Fuente legible */
+    width: auto; /* Ajustar automáticamente el ancho al contenido */
+    min-width: 400px; /* Establecer un ancho máximo si es necesario */
+    padding: 20px; /* Espaciado interno para un diseño limpio */
+    border: 1px solid #ddd; /* Borde general del calendario */
+    border-radius: 10px; /* Bordes redondeados */
+    background-color: #f9f9f9; /* Fondo claro */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    text-align: center; /* Centrar el contenido */
+}
+
+/* Ajustar los botones para los días (números) */
+.ui-state-default {
+    font-size: 32px; /* Tamaño del texto de los días */
+    width: 50px; /* Ancho de cada celda */
+    height: 50px; /* Alto de cada celda */
+    line-height: 50px; /* Centrar verticalmente el texto */
+    text-align: center; /* Centrar horizontalmente el texto */
+    display: inline-block; /* Asegurar dimensiones consistentes */
+    margin: 2px; /* Espaciado entre las celdas */
+    border-radius: 5px; /* Bordes redondeados */
+    background-color: #fff; /* Fondo blanco */
+    border: 1px solid #ccc; /* Borde gris claro */
+    cursor: pointer; /* Apuntar como clickeable */
+}
+
+/* Días seleccionados */
+.ui-state-active {
+    background-color: #007bff; /* Azul para el día activo */
+    color: #fff; /* Texto blanco */
+    border: 1px solid #0056b3; /* Borde más oscuro */
+}
+
+/* Hover en días */
+.ui-state-default:hover {
+    background-color: #f0f0f0; /* Fondo gris claro al pasar el mouse */
+    border-color: #bbb; /* Cambiar borde */
+}
+
+/* Ajustar el título (mes y año) */
+.ui-datepicker-title {
+    font-size: 24px; /* Tamaño del título */
+    text-align: center; /* Centrar texto */
+    margin-bottom: 10px; /* Espaciado inferior */
+}
+
+/* Ajustar los botones de navegación (anterior y siguiente) */
+.ui-datepicker-prev, .ui-datepicker-next {
+    font-size: 20px; /* Tamaño del texto en los botones de navegación */
+    width: 40px; /* Tamaño del botón */
+    height: 40px; /* Tamaño del botón */
+    line-height: 40px; /* Centrado vertical */
+    text-align: center; /* Centrado horizontal */
+    cursor: pointer; /* Cursor interactivo */
+}
+
+/* Contenedor del calendario (tabla de días) */
+.ui-datepicker-calendar {
+    border-spacing: 4px; /* Espaciado entre las celdas */
+    width: 100%; /* Asegura que el ancho del calendario se ajuste */
+}
+
+/* Ajustar las celdas del calendario (días) */
+.ui-datepicker-calendar td {
+    padding: 0; /* Sin relleno adicional */
+    margin: 0; /* Sin margen adicional */
+    text-align: center; /* Centrar texto */
+}
+
+/* Días deshabilitados */
+.ui-state-disabled {
+    color: #999; /* Texto gris */
+    cursor: not-allowed; /* Cursor de no permitido */
+}
+
+/* Fines de semana destacados */
+.ui-datepicker-calendar .ui-datepicker-week-end .ui-state-default {
+    color: #d9534f; /* Rojo para fines de semana */
+}
+
+/* Ajustar los encabezados de los días de la semana (Lun, Mar, etc.) */
+.ui-datepicker-calendar th {
+    font-size: 20px; /* Tamaño del texto del encabezado */
+    color: #555; /* Color gris */
+    padding: 10px; /* Espaciado interno */
+}
+
+/* Opcional: bordes redondeados para el calendario completo */
+.ui-datepicker {
+    border-radius: 10px;
+    border: 1px solid #ddd; /* Borde general del calendario */
+    padding: 10px; /* Espaciado interno del calendario */
+    background-color: #f9f9f9; /* Fondo claro */
+}
+
+/* Botones de Horas de DatePicker */
+
+.btn_hora{
+    width: 200px !important;
+
+    font-size: 100px;
 }

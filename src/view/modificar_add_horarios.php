@@ -105,7 +105,7 @@ require_once "../view/Templates/inicio.inc.php";
     <main class="my-4">
         <h2>Modificar/Añadir Horarios</h2>
             <h4>Tabla de Horarios</h4>
-            <button id="btn_añadir_horario" class="btn btn-primary"><i class="fa-regular fa-calendar-plus me-2"></i>Añadir Horario</button><br>
+            <button id="btn_añadir_horario" class="btn btn-primary btn-diez"><i class="fa-regular fa-calendar-plus me-2"></i>Añadir Horario</button><br>
             <label>Indique a que profesor quiere ver el horario: </label>
             <select name="profesor" id="profesor">
                 <option value="" selected>--Elija un profesor--</option>
@@ -131,10 +131,9 @@ require_once "../view/Templates/inicio.inc.php";
             </tbody>
             </table>
 
-            <footer>
-                <h1>Aplicación web desarrollada por <a style="text-decoration: none; color: #1A73E8" href="https://dondigital.es">DonDigital.es</a></h1>
-                <img id="logo_barra" src="../../../assets/IMG/Logo_DonDigital_barra2.svg">
-            </footer>
+            <?php
+                include '../view/Templates/footer.inc.php';
+            ?>
         </main>
 
 

@@ -12,6 +12,11 @@ if (!isset($connection)) {
     die("Error: Conexión no inicializada.");
 }
 
+if(!isset($_POST["register"]) && !isset($_POST['login']) && !isset($_GET["action"])){
+    header("Location:/src/view/login.php");
+    die();
+}
+
 if(isset($_POST["register"])){
     $registro=usuario::registrarUsuario($connection, $_POST["correo"], $_POST["pass"], $_POST["confirm"], $_POST["nombre"], $_POST['apellidos'], $_POST["tipo"], DNI:$_POST['DNI']);
     if(!is_string($registro)){
@@ -53,10 +58,13 @@ if(isset($_POST['login'])){
     }
 }
 
-switch($_GET["action"]){
-    case "cerrar":
-        usuario::logOut();
-    
-        header("Location: ../view/login.php");
-    break;
+if(isset($_GET["action"])){
+    switch($_GET["action"]){
+        case "cerrar":
+            usuario::logOut();
+        
+            header("Location: ../view/login.php");
+        break;
+    }
 }
+

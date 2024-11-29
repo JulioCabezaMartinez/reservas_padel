@@ -60,12 +60,16 @@ class profesor extends usuario{
         }
     }
 
-    public static function updateProfesor(mysqli $connection, $tipo_update, $id_profesor, $nombre_profesor=null, $apellidos_profesor=null, $DNI_profesor=null, $correo_profesor=null){
+    public static function updateProfesor(mysqli $connection, $tipo_update, $id_profesor, $nombre_profesor=null, $apellidos_profesor=null, $DNI_profesor=null, $correo_profesor=null, $password=null){
         $query='';
 
         switch($tipo_update){
             case "todo-pass":
                 $query="UPDATE profesores set nombre='".$nombre_profesor."', apellidos='".$apellidos_profesor."', DNI='".$DNI_profesor."', correo='".$correo_profesor."' WHERE id_profesor='".$id_profesor."';";
+            break;
+
+            case 'cambiar_pass':
+                $query="UPDATE profesores SET password='".$password."' WHERE id_profesor='".$id_profesor."';";
             break;
         }
 

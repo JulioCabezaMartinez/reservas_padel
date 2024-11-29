@@ -7,8 +7,10 @@
                     if($_SESSION["tipo_usuario"]=="Alumno"){
                 ?>
                     <a style="cursor: default;" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                        <span><img class="fs-5 d-none d-sm-inline" src="../../../assets/IMG/Logo_padel.jpg" style="width: 10rem;" alt=""></span><span>Clases: <?php echo $puntos?><i class="fa-solid fa-table-tennis-paddle-ball mx-2"></i></span>
+                        <span><img class="fs-5 d-none d-sm-inline" src="../../../assets/IMG/Logo_padel.jpg" style="width: 10rem;" alt=""></span>
                     </a>
+                    <br>
+                    <span><strong>Clases Disponibles: </strong><?php echo $puntos?><i class="fa-solid fa-table-tennis-paddle-ball mx-2"></i></span>
                 <?php
                     }else{
                 ?>
@@ -56,7 +58,7 @@
                                 <a href="./actions_administrador.php?action=mod_horarios" class="nav-link px-0 color_panel"> <span class="d-none d-sm-inline"><i class="fa-solid fa-calendar-days"></i><i class="fa-solid fa-pen"></i> Modificar/Añadir Horarios</span></a>
                             </li>
                             <li>
-                                <a href="./actions_administrador.php?action=crear_reserva" class="nav-link px-0 color_panel"> <span class="d-none d-sm-inline"> Crear Reserva</span></a>
+                                <a href="./actions_administrador.php?action=crear_reserva" class="nav-link px-0 color_panel"> <span class="d-none d-sm-inline"><i class="fa-solid fa-calendar-plus"></i> Crear Reserva</span></a>
                             </li>
                             <li>
                                 <a href="./actions_administrador.php?action=reservas" class="nav-link px-0 color_panel"> <span class="d-none d-sm-inline"><i class="fa-solid fa-book-bookmark"></i> Ver Reservas</span></a>
@@ -123,7 +125,7 @@
                         </ul>
 
                     
-                        <a href="https://dondigital.es"><img class="mt-5 pt-5" id="logo_barra" src="../../../assets/IMG/Logo_DonDigital_barra2.svg"></a>
+                        <a href="https://dondigital.es"><img class="mt-3 pt-5" id="logo_barra" style="width: 100%" src="../../../assets/IMG/Logo_DonDigital_barra2.svg"></a>
 
                 </ul>
                 <hr>
