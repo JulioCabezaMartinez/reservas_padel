@@ -143,4 +143,16 @@ class reserva{
         }
     }
 
+    public static function cuentaReservasDia(mysqli $connection, $dia){
+        $result=$connection->query("SELECT COUNT(*) as n_reservas from reservas where fecha='".$dia."';");
+
+        if($result!=false){
+            $linea=$result->fetch_object();
+
+            return $linea->n_reservas;
+        }else{
+            return mysqli_error($connection);
+        }
+    }
+
 }

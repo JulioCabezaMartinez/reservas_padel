@@ -125,4 +125,16 @@ class horario{
             return mysqli_error($connection);
         }
     }
+
+    public static function cuentaHorarioFecha(mysqli $connection, $fecha){
+        $result=$connection->query("SELECT COUNT(*) as n_horario from horarios where fecha='".$fecha."'");
+
+        if($result!=false){
+            $linea=$result->fetch_object();
+            
+            return $linea->n_horario;
+        }else{
+            return mysqli_error($connection);
+        }
+    }
 }

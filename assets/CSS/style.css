@@ -276,3 +276,19 @@ footer img{
 
     font-size: 100px;
 }
+
+/* Colores en funcion de horario */
+
+.ui-datepicker .has-schedule a {
+    background-color: #1A73E8; /* DonDigital */
+    color: #000;
+}
+
+.ui-datepicker td a:hover.has-schedule {
+    background-color: #ffb300; /* Amarillo oscuro en hover */
+}
+
+.ui-datepicker .completo a {
+    background-color: #555; /* DonDigital */
+    color: #000;
+}
