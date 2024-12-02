@@ -83,6 +83,56 @@ require_once "../view/Templates/inicio.inc.php";
                                 <option value="Domingo">Domingo</option>
                             </select>
                             <br><br>
+                            <p>Mes/es:</p>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="enero" value="1">
+                                <label class="form-check-label" for="enero">Enero</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="febrero" value="2">
+                                <label class="form-check-label" for="febrero">Febrero</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="marzo" value="3">
+                                <label class="form-check-label" for="marzo">Marzo</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="abril" value="4">
+                                <label class="form-check-label" for="abril">Abril</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="mayo" value="5">
+                                <label class="form-check-label" for="mayo">Mayo</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="junio" value="6">
+                                <label class="form-check-label" for="junio">Junio</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="julio" value="7">
+                                <label class="form-check-label" for="julio">Julio</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="agosto" value="8">
+                                <label class="form-check-label" for="agosto">Agosto</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="septiembre" value="9">
+                                <label class="form-check-label" for="septiembre">Septiembre</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="octubre" value="10">
+                                <label class="form-check-label" for="octubre">Octubre</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="noviembre" value="11">
+                                <label class="form-check-label" for="noviembre">Noviembre</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="diciembre" value="12">
+                                <label class="form-check-label" for="diciembre">Diciembre</label>
+                            </div>
+                            <br><br>
                             <label for="hora_inicio_modal">Hora Inicio: </label>
                             <input class="timepicker" id="hora_inicio_modal_creacion" name="hora_inicio_modal_creacion">
                             <br><br>
@@ -210,6 +260,9 @@ require_once "../view/Templates/inicio.inc.php";
                 let dia_añadir=$("#dia_modal_creacion").val();
                 let hora_inicio_añadir=$("#hora_inicio_modal_creacion").val();
                 let hora_final_añadir=$("#hora_final_modal_creacion").val();
+                let meses=$(".form-check-input:checked").map(function() {
+                    return $(this).val();
+                }).get();
 
                 $.ajax({
                     url: "AJAX.php",
@@ -219,10 +272,11 @@ require_once "../view/Templates/inicio.inc.php";
                         profesor:profesor_añadir,
                         dia:dia_añadir,
                         hora_inicio:hora_inicio_añadir,
-                        hora_final:hora_final_añadir
+                        hora_final:hora_final_añadir,
+                        meses:meses
                     },
                     success:function(data){
-                        location.reload();
+                        console.log(data);
                     }
                 });
             });

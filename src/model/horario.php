@@ -45,8 +45,8 @@ class horario{
         }
     }
 
-    public static function selectHorarioProfesorFecha(mysqli $connection, $id_profesor, $fecha){
-        $result=$connection->query("SELECT id_horario, hora_inicio, hora_final from horarios where id_profesor='".$id_profesor."' AND fecha='".$fecha."';");
+    public static function selectHorarioProfesorFecha(mysqli $connection, $id_profesor, $fecha, $mes){
+        $result=$connection->query("SELECT id_horario, hora_inicio, hora_final from horarios where id_profesor='".$id_profesor."' AND fecha='".$fecha."' AND mes=".$mes.";");
 
         if($result!=false){
             $lista_horarios=[];
@@ -73,7 +73,27 @@ class horario{
             $linea=$result->fetch_object();
 
             while($linea!=null){
-                $horario=["hora_inicio"=>$linea->hora_inicio, "hora_final"=>$linea->hora_final, "id"=>$linea->id_horario, "dia"=>$linea->fecha];
+                $horario=["hora_inicio"=>$linea->hora_inicio, "hora_final"=>$linea->hora_final, "id"=>$linea->id_horario, "dia"=>$linea->fecha, "mes"=>$linea->mes];
+                array_push($lista_horarios, $horario);
+
+                $linea=$result->fetch_object();
+            }
+
+            return $lista_horarios;
+        }else{
+            return mysqli_error($connection);
+        }
+    }
+
+    public static function selectHorarioProfesorMes(mysqli $connection, $id_profesor, $mes){
+        $result=$connection->query("SELECT * from horarios where id_profesor='".$id_profesor."' AND mes=".$mes.";");
+
+        if($result!=false){
+            $lista_horarios=[];
+            $linea=$result->fetch_object();
+
+            while($linea!=null){
+                $horario=["hora_inicio"=>$linea->hora_inicio, "hora_final"=>$linea->hora_final, "id"=>$linea->id_horario, "dia"=>$linea->fecha, "mes"=>$linea->mes];
                 array_push($lista_horarios, $horario);
 
                 $linea=$result->fetch_object();
@@ -116,8 +136,8 @@ class horario{
         }
     }
 
-    public static function insertHorario(mysqli $connection, $id_profesor, $fecha, $hora_inicio, $hora_final){
-        $result=$connection->query("INSERT INTO horarios (id_profesor, fecha, hora_inicio, hora_final) VALUES ('".$id_profesor."', '".$fecha."', '".$hora_inicio."', '".$hora_final."');");
+    public static function insertHorario(mysqli $connection, $id_profesor, $fecha, $hora_inicio, $hora_final, $meses){
+        $result=$connection->query("INSERT INTO horarios (id_profesor, fecha, hora_inicio, hora_final, meses) VALUES ('".$id_profesor."', '".$fecha."', '".$hora_inicio."', '".$hora_final."', '".json_encode($meses)."');");
 
         if($result!=false){
             return true;

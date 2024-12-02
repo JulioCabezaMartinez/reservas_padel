@@ -292,3 +292,15 @@ footer img{
     background-color: #555; /* DonDigital */
     color: #000;
 }
+
+
+/* Recuperar Pass */
+.link_falso{
+    text-decoration: underline;
+    color: blue;
+    cursor: pointer;
+}
+.oculto{
+    height: 0;
+    overflow: hidden;
+}

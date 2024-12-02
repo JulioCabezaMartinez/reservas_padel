@@ -166,7 +166,7 @@ require_once "../view/Templates/inicio.inc.php";
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button id="btn_cerrar_modal" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button id="btn_cerrar_modal_olvido" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                     <button id="btn_enviar_correo" type="button" class="btn btn-primary w-50" data-dismiss="modal">Enviar</button>
                 </div>
             </div>
@@ -193,7 +193,7 @@ require_once "../view/Templates/inicio.inc.php";
     <!-- Modal de Confirmación envio de correo -->
 
     <div class="d-flex justify-content-center">
-        <img class="DonDigitalLogo" style="width: 13%;" src='../../../assets/IMG/Logo_padel.jpg'>
+        <img class="DonDigitalLogo" style="width: 13%;" src='/assets/IMG/Logo_padel.jpg'>
         <img src="../../../assets/IMG/Logo_DonDigital_principal.svg" style="width: 25%;" alt="">
     </div>
     <div class="d-flex justify-content-center">
@@ -212,7 +212,7 @@ require_once "../view/Templates/inicio.inc.php";
             <input type="submit" name="login" value="Iniciar Sesión">
             <br><br>
             <a style="font-size: 130%;" href="./register.php">Nuevo Usuario</a><br><br>
-            <!-- <p>Si ha olvidado su contraseña pulse <span id="recuperar_pass" class="link_falso">aqui</span></p> -->
+            <p>Si ha olvidado su contraseña pulse <span id="recuperar_pass" class="link_falso">aqui</span></p>
         </form>
 
     </div>
@@ -228,8 +228,9 @@ require_once "../view/Templates/inicio.inc.php";
             
             $("#btn_enviar_correo").click(function() {
                 correo = $("#correo_modal").val();
+                
                 $.ajax({
-                    url: "../controller/AJAX.php",
+                    url: "/src/controller/AJAX.php",
                     method: "POST",
                     data: {
                         mode: "recuperar_pass",
@@ -241,6 +242,8 @@ require_once "../view/Templates/inicio.inc.php";
                             $("#envio_ok").modal("show");
                         }else if(data=="Correo no valido"){
                             $("#error_correo").text("Su correo no se encuentra en la base de datos");
+                        }else{
+                            console.log(data);
                         }
                     }
                         
@@ -249,6 +252,10 @@ require_once "../view/Templates/inicio.inc.php";
 
             $('#btn_cerrar_modal').on('click', function() {
                 $('#envio_ok').modal('hide');
+            });
+
+            $("#btn_cerrar_modal_olvido").on("click", function(){
+                $("#modal_olvido_pass").modal("hide");
             });
 
             $('#btn_cerrar_correo').on('click', function() {

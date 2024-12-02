@@ -116,6 +116,7 @@ require_once "../view/Templates/inicio.inc.php";
                     
                     // Obtener el nombre del día de la semana
                     dayName= daysOfWeek[dateObject.getDay()];
+                    let mes=dateObject.getMonth()+1;
                     $("#dia_selected").text(dayName);
 
                     $.ajax({
@@ -124,6 +125,7 @@ require_once "../view/Templates/inicio.inc.php";
                         data:{
                             mode: "muestra_horas_profesor",
                             dia: dayName,
+                            mes:mes,
                             fecha:dateText
                         },
                         success:function(data){

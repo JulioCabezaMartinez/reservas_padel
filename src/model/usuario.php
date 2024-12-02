@@ -90,8 +90,8 @@ abstract class usuario{
         }
     }
 
-    private static function compruebaCorreo(mysqli $connection, $correo){
-        $result=$connection->query('Select nombre from clientes where correo="'. $correo .'";');
+    public static function compruebaCorreo(mysqli $connection, $correo){
+        $result=$connection->query("SELECT 1 FROM dual WHERE '".$correo."' NOT IN (SELECT correo FROM clientes) AND '".$correo."' NOT IN (SELECT correo FROM profesores) AND '".$correo."' NOT IN (SELECT correo FROM administradores);");
 
         if($result!=false){
             $linea=$result->fetch_object();
@@ -106,7 +106,7 @@ abstract class usuario{
 
         if(!is_null($correo) && !is_null($tipo) && !is_null($pass) && !is_null($confirmPass) && !is_null($nombre) && !is_null($apellidos)){ //Doble comprobación para evitar que inyecciones de datos erroneas en la BD
             if($pass===$confirmPass){
-                if(usuario::compruebaCorreo($connection, $correo)){
+                if(!usuario::compruebaCorreo($connection, $correo)){
 
                     //En caso de que se quiera usar imagenes descomentar las siguientes lineas.
                     
@@ -153,7 +153,7 @@ abstract class usuario{
                         return mysqli_error($connection);
                     }
                 }else{
-                    return "Su correo ya se encuntra registrado";
+                    return "Su correo ya se encuentra registrado";
                 }
             }else{
                 return "Contraseñas no coinciden";
@@ -161,5 +161,23 @@ abstract class usuario{
         }else{
             return "Faltan datos por rellenar";
         }
+    }
+
+    public static function resetPass($correo, $new_pass, $confirm, mysqli $connection){
+
+        if($new_pass==$confirm){
+            $cambio=$connection->query("UPDATE clientes SET password = '".password_hash($new_pass, PASSWORD_DEFAULT)."' WHERE (`correo` = '".$correo."');");
+            $cambio2=$connection->query("UPDATE profesores SET password = '".password_hash($new_pass, PASSWORD_DEFAULT)."' WHERE (`correo` = '".$correo."');");
+            $cambio3=$connection->query("UPDATE administradores SET password = '".password_hash($new_pass, PASSWORD_DEFAULT)."' WHERE (`correo` = '".$correo."');");
+
+            if($cambio!=false || $cambio2!=false || $cambio3!=false){
+                return true;
+            }else{
+                return mysqli_error($connection);
+            }
+        }else{
+            return "Contraseñas no coinciden";
+        }
+        
     }
 }

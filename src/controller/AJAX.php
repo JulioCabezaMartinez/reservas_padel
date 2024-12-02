@@ -13,7 +13,7 @@ if(isset($_POST["mode"])){
     switch($_POST["mode"]){
         case "muestra_horas":
 
-            $lista_horarios=horario::selectHorarioProfesorFecha($connection, $_POST["id_profesor"], $_POST["dia"]);
+            $lista_horarios=horario::selectHorarioProfesorFecha($connection, $_POST["id_profesor"], $_POST["dia"], $_POST['mes']);
 
             foreach($lista_horarios as $horario){
                 if(horario::compruebaDia($connection, $_POST["fecha"], $horario["id"])){
@@ -26,7 +26,7 @@ if(isset($_POST["mode"])){
 
         case "muestra_horas_profesor":
 
-            $lista_horarios=horario::selectHorarioProfesorFecha($connection, $_SESSION["id"], $_POST["dia"]);
+            $lista_horarios=horario::selectHorarioProfesorFecha($connection, $_SESSION["id"], $_POST["dia"], $_POST['mes']);
 
             foreach($lista_horarios as $horario){
                 if(horario::compruebaDia($connection, $_POST["fecha"], $horario["id"])){
@@ -79,7 +79,7 @@ if(isset($_POST["mode"])){
         break;
             
         case "creacion_horario":
-            $inserccion=horario::insertHorario($connection, $_POST['profesor'], $_POST['dia'], $_POST['hora_inicio'], $_POST['hora_final']);
+            $inserccion=horario::insertHorario($connection, $_POST['profesor'], $_POST['dia'], $_POST['hora_inicio'], $_POST['hora_final'], $_POST['meses']);
             
             if($inserccion){
                 echo "Insercción Correcta";
@@ -90,7 +90,7 @@ if(isset($_POST["mode"])){
 
         case "creacion_horario_profe":
 
-            $inserccion=horario::insertHorario($connection, $_SESSION['id'], $_POST['dia'], $_POST['hora_inicio'], $_POST['hora_final']);
+            $inserccion=horario::insertHorario($connection, $_SESSION['id'], $_POST['dia'], $_POST['hora_inicio'], $_POST['hora_final'], $_POST['meses']);
             
             if($inserccion){
                 echo "Insercción Correcta";
@@ -250,27 +250,80 @@ if(isset($_POST["mode"])){
             
         break;
 
-        case "colores_dias":
+        // case "colores_dias":
 
-            $lista_horarios=horario::selectHorarioProfesor($connection, $_POST['id_profesor']);
+        //     $lista_horarios=horario::selectHorarioProfesor($connection, $_POST['id_profesor']);
 
-            $json_response = json_encode($lista_horarios);
-            echo $json_response;
-        break;
+        //     $json_response = json_encode($lista_horarios);
+        //     echo $json_response;
+        // break;
 
-        case "contar_reservas":
+        // case "contar_reservas":
 
-            $nReservas=reserva::cuentaReservasDia($connection, $_POST['fecha']);
-            $nHorario=horario::cuentaHorarioFecha($connection, $_POST['nombre_dia']);
+        //     $nReservas=reserva::cuentaReservasDia($connection, $_POST['fecha']);
+        //     $nHorario=horario::cuentaHorarioFecha($connection, $_POST['nombre_dia']);
 
-            if($nHorario==$nReservas){
-                echo true;
+        //     if($nHorario==$nReservas){
+        //         echo true;
+        //     }else{
+        //         echo false;
+        //     }
+
+        // break;
+
+
+        case "recuperar_pass":
+
+            if(usuario::compruebaCorreo( $connection, $_POST["correo"])){
+                $codigo=uniqid();
+
+                $resultado=$connection->query("Insert into recuperacion_pass values('".$_POST["correo"]."', '".$codigo."', '".date('d/m/Y H:i')."') ON DUPLICATE KEY UPDATE codigo = '".$codigo."';");
+    
+                $para = $_POST["correo"];
+                $asunto = "Cambio Contraseña";
+                $mensaje = "NO RESPONDER ESTE CORREO.\n
+                Su codigo de recuperacion es el siguiente: \n
+                ".$codigo." \n
+                Si no se encuentra registrado en dondigital.app ignore este mensaje.";
+                $cabeceras = "From: passwordreset@dondigital.app";
+    
+                if(mail($para, $asunto, $mensaje, $cabeceras)){
+                    echo "Todo correcto";
+                }else{
+                    echo "Algo fallo";
+                }
             }else{
-                echo false;
+                echo "Correo no valido";
             }
 
         break;
 
+        case "comprobar_codigo_cambio_pass":
+
+            $resultado=$connection->query("Select codigo from recuperacion_pass where correo='".$_POST['correo']."';");
+
+            $linea=$resultado->fetch_object();
+
+            if($linea!=null){
+                if($linea->codigo == $_POST['codigo_usuario']){
+                    echo "Código correcto";
+                }else{
+                    echo "Código no valido";
+                }
+            }
+
+        break;
+
+        case "reset_pass":
+
+            $prueba=usuario::resetPass($_POST['correo'], $_POST['pass'], $_POST['confirm'], $connection);
+            if($prueba){
+                echo "Todo correcto";
+            }else{
+                echo "Error en el cambio";
+            }
+
+        break;
     }
 }
 
