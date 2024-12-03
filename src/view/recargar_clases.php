@@ -44,7 +44,7 @@ require_once "../view/Templates/inicio.inc.php";
                     <th scope="col">Nombre</th>
                     <th>Apellidos</th>
                     <th>DNI</th>
-                    <th>Puntos</th>
+                    <th>Clases</th>
                     <th>Correo</th>
                     <!-- <th>Acciones</th> -->
                     <th>

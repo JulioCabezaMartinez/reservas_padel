@@ -51,12 +51,31 @@ if(isset($_POST["mode"])){
         case "tabla_profesor":
             if(!$_POST["id_profesor"]==""){
                 $lista_horarios=horario::selectHorarioProfesor($connection, $_POST["id_profesor"]);
-
+                $meses = [
+                    1 => "Enero",
+                    2 => "Febrero",
+                    3 => "Marzo",
+                    4 => "Abril",
+                    5 => "Mayo",
+                    6 => "Junio",
+                    7 => "Julio",
+                    8 => "Agosto",
+                    9 => "Septiembre",
+                    10 => "Octubre",
+                    11 => "Noviembre",
+                    12 => "Diciembre"
+                ];
                 foreach($lista_horarios as $horario){
                     echo '<tr>
                             <td>'.$horario["dia"].'</td>
                             <td>'.$horario["hora_inicio"].'</td>
-                            <td>'.$horario["hora_final"].'</td>
+                            <td>'.$horario["hora_final"].'</td>';
+                            $meses_DB=json_decode($horario["mes"], true);
+                            $fila = '';
+                            for ($i = 0; $i < count($meses_DB); $i++) {
+                                $fila .= $meses[$meses_DB[$i]] . " ";
+                            }
+                            echo '<td>'.$fila.'</td>
                             <td><button id="btn_'.$horario["id"].'" class="btn_modificar_horario btn btn-primary"><i class="fa-solid fa-pen me-2"></i>Modificar horario</button></td>
                         </tr>';
                 }
@@ -149,7 +168,7 @@ if(isset($_POST["mode"])){
         case "alta":
             $pago;
             if($_POST["tipo"]=="Profesor"){
-                $pago=usuario::registrarUsuario($connection, $_POST['correo'], $_POST['pass'], $_POST['confirm'], $_POST['nombre'], $_POST['apellidos'], $_POST['tipo'], image:$_FILES['imagen']);
+                $pago=usuario::registrarUsuario(connection: $connection, correo: $_POST['correo'], pass: $_POST['pass'], confirmPass: $_POST['confirm'], nombre: $_POST['nombre'], apellidos: $_POST['apellidos'], tipo: $_POST['tipo'], DNI: $_POST['DNI'], image:$_FILES['imagen']);
             }elseif($_POST["tipo"]=="Alumno"){
                 $pago=usuario::registrarUsuario(connection: $connection, correo: $_POST['correo'], pass: $_POST['pass'], confirmPass: $_POST['confirm'], nombre: $_POST['nombre'], apellidos: $_POST['apellidos'], tipo: $_POST['tipo'], DNI: $_POST['DNI']);
             }else{
@@ -285,7 +304,7 @@ if(isset($_POST["mode"])){
                 Su codigo de recuperacion es el siguiente: \n
                 ".$codigo." \n
                 Si no se encuentra registrado en dondigital.app ignore este mensaje.";
-                $cabeceras = "From: passwordreset@dondigital.app";
+                $cabeceras = "From: noreply@clases.fpadelceuta.com";
     
                 if(mail($para, $asunto, $mensaje, $cabeceras)){
                     echo "Todo correcto";
@@ -300,12 +319,12 @@ if(isset($_POST["mode"])){
 
         case "comprobar_codigo_cambio_pass":
 
-            $resultado=$connection->query("Select codigo from recuperacion_pass where correo='".$_POST['correo']."';");
-
+            $resultado=$connection->query("Select codigo from recuperacion_pass where correo_user='".$_POST['correo']."';");
+            
             $linea=$resultado->fetch_object();
 
             if($linea!=null){
-                if($linea->codigo == $_POST['codigo_usuario']){
+                if($linea->codigo == $_POST['codigo']){
                     echo "Código correcto";
                 }else{
                     echo "Código no valido";
@@ -322,6 +341,12 @@ if(isset($_POST["mode"])){
             }else{
                 echo "Error en el cambio";
             }
+
+        break;
+        
+        case "set_recuperacion":
+        
+            $_SESSION['recuperacion'] = $_POST['recuperacion'];
 
         break;
     }

@@ -1,9 +1,17 @@
 <?php
 
+session_start();
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL & ~E_NOTICE);
 
+if (empty($_SESSION) || !isset($_SESSION)){
+    header("Location:/src/view/login.php");
+    die();
+}
+
 $titulo="Recuperar Pass";
+
 require_once '../view/Templates/inicio.inc.php';
 
 ?>
@@ -37,14 +45,14 @@ require_once '../view/Templates/inicio.inc.php';
         </div>
         <h2>Recuperación de contraseña</h2><br><br>
 
-        <a href="login.php"><button>← Volver</button></a>
+        <a href="login.php?vuelta=1"><button>← Volver</button></a>
 
         <div id="comprobacion_codigo" class="d-flex flex-column m-4">
             <div class>
                 <p>Indique el código que ha recibido por email.</p><br>
                 <label for="codigo">Indique el código:</label><br>
                 <input id="codigo" class="form-control" style="width: 20%;" type="password" name="codigo" required>
-                <!-- <input id="correo" type="hidden" name="correo" value="<?php echo $_GET['correo'] ?>"> -->
+                <input id="correo" type="hidden" name="correo" value="<?php echo $_GET['correo'] ?>">
             </div><br>
             <button id="btn_comprueba_codigo" class="btn btn-outline-primary" style="width: 10%;">Comprobar</button>
         </div>
@@ -72,13 +80,12 @@ require_once '../view/Templates/inicio.inc.php';
                 let codigo_usuario = $("#codigo").val();
                 correo = $("#correo").val();
 
-                console.log(codigo_usuario);
                 $.ajax({
                     url: "/src/controller/AJAX.php",
                     method: "POST",
                     data: {
                         mode: "comprobar_codigo_cambio_pass",
-                        codigo: codigo,
+                        codigo: codigo_usuario,
                         correo: correo
                     },
                     success: function(data) {
@@ -106,18 +113,30 @@ require_once '../view/Templates/inicio.inc.php';
                             correo: correo
                         },
                         success: function(data) {
-                            $("#reset_ok").modal("show");
+                            if(data=="Todo correcto"){
+                                Swal.fire({
+                                title: "Contraseña Modificada",
+                                text: "La contraseña se ha modificado con exito",
+                                icon: "success"
+                                }).then((result)=>{
+                                    window.location.href = "login.php?vuelta=1";
+                                });
+                            }else{
+                                Swal.fire({
+                                title: "Error Servidor",
+                                text: "Ha habido un error en el servidor y no se ha modificado la contraseña",
+                                icon: "error"
+                                }).then((result)=>{
+                                    window.location.href = "login.php?vuelta=1";
+                                });
+                            }
+                            
                         }
                     });
                 }else{
                     $("#confirm").after('<p style="color: red;">Las contraseñas no coinciden</p>');
                 }
                 
-            });
-
-            $("#btn_cambio_pass").click(function(){
-                $("#reset_ok").modal("hide");
-                window.location.href = "login.php";
             });
 
         });

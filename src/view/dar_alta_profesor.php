@@ -24,6 +24,9 @@ require_once "../view/Templates/inicio.inc.php";
         <label for="apellidos">*Apellidos:</label><br>
         <input id="apellidos_profesor" class="form-control w-25" type="text" name="apellidos" placeholder="Apellidos" maxlength="60" required>
         <br>
+        <label for="DNI">*DNI:</label><br>
+        <input id="DNI_profesor" class="form-control w-25" type="text" name="DNI" placeholder="12345678A" maxlength="9" pattern="(\d{8})([A-Z]{1})" required> <!-- Poner para el NIE -->
+        <br>
         <label for="correo">*Correo:</label><br>
         <input id="correo_profesor" class="form-control w-25" type="email" name="correo" maxlength="60" required>
         <br>
@@ -69,6 +72,7 @@ require_once "../view/Templates/inicio.inc.php";
             $("#btn_dar_alta_profesor").click(function(){
                 let nombre_profesor=$("#nombre_profesor").val();
                 let apellidos_profesor=$("#apellidos_profesor").val();
+                let DNI_profesor=$("#DNI_profesor").val();
                 let correo_profesor=$("#correo_profesor").val();
                 let imagen_profesor=$("#imagen_profesor")[0].files[0];
                 let pass_profesor=$("#pass_profesor").val();
@@ -78,6 +82,7 @@ require_once "../view/Templates/inicio.inc.php";
                 formData.append("mode", "alta");
                 formData.append("nombre", nombre_profesor);
                 formData.append("apellidos", apellidos_profesor);
+                formData.append("DNI", DNI_profesor);
                 formData.append("correo", correo_profesor);
                 formData.append("imagen", imagen_profesor);
                 formData.append("pass", pass_profesor);
@@ -91,13 +96,24 @@ require_once "../view/Templates/inicio.inc.php";
                     processData: false, // Impide que jQuery procese los datos, necesario para FormData
                     contentType: false, // Evita que jQuery defina el tipo de contenido
                     success:function(data){
-                        Swal.fire({
+                        if("Registro ok"){
+                            Swal.fire({
                                 title: "Profesor creado",
                                 text: "El profesor"+ nombre_profesor + " "+ apellidos_profesor +" se ha creado con exito",
                                 icon: "success"
                                 }).then((result)=>{
+                                    window.location.href = "/src/controller/actions_administrador.php?action=ver_profesores";
+                                });
+                        }else{
+                            Swal.fire({
+                                title: "Error Servidor",
+                                text: "Ha habido un error en el servidor y no registrado el profesor",
+                                icon: "error"
+                                }).then((result)=>{
                                     location.reload();
                                 });
+                        }
+                        
                     }
                 })
             });

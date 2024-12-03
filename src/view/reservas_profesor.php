@@ -21,7 +21,7 @@ require_once "../view/Templates/inicio.inc.php";
 
     <!-- Modal MODIFICAR Horario -->
     <div class="modal fade" id="modal_modificar_horario" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
-        <div class="modal-dialog d-flex justify-content-center">
+        <div class="modal-dialog modal-lg d-flex justify-content-center">
             <div class="modal-content w-100">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel3">Modificación de Reserva</h5>
@@ -30,11 +30,12 @@ require_once "../view/Templates/inicio.inc.php";
                     <form>
                         <div data-mdb-input-init class="form-outline mb-4">
                             <div id="reserva">
+                                
                                 <div id="text_horario" class="d-flex flex-wrap">
                                     Fecha:
-                                    <input id="fecha_text" class="w-100" type="text" readonly>
+                                    <input id="fecha_text" class="w-25" type="text" readonly>
                                     Hora:
-                                    <input id="hora_text" class="w-100" type="text" readonly>
+                                    <input id="hora_text" class="w-25" type="text" readonly>
                                     <p id="error_modal_text" class="d-none" style="color: red;">Se necesita elegir un horario para la reserva</p>
                                 </div>
 

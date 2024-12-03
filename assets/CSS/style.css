@@ -304,3 +304,9 @@ footer img{
     height: 0;
     overflow: hidden;
 }
+
+/* Modificacion de modal */
+
+.ui-autocomplete {
+    z-index: 3000 !important; /* Mayor que el z-index del modal de Bootstrap */
+}

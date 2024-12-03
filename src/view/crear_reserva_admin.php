@@ -127,41 +127,41 @@ require_once "../view/Templates/inicio.inc.php";
 
             $(function() {
                 $( "#alumnos" ).autocomplete({
-                source: alumnos,
-                select:function(event, ui){
+                    source: alumnos,
+                    select:function(event, ui){
 
-                    let DNI_alumno=ui.item.value.split("-")[0];
+                        let DNI_alumno=ui.item.value.split("-")[0];
 
-                    $("#mostrar_seleccion_nombre").val(ui.item.value.split("-")[1].split(" ")[0]);
-                    $("#mostrar_seleccion_apellidos").val(ui.item.value.split("-")[1].split(" ")[1]);
-                    $("#mostrar_seleccion_DNI").val(ui.item.value.split("-")[0]);
-                    
-                    $.ajax({
-                    url: "AJAX.php",
-                    method: "POST",
-                    data:{
-                        mode: "puntos_alumno_reserva_admin",
-                        DNI_alumno:DNI_alumno
-                    },
-                    success:function(data){
-                        let clases_alumno=data;
-                        $("#alumno_puntos").text(clases_alumno);
+                        $("#mostrar_seleccion_nombre").val(ui.item.value.split("-")[1].split(" ")[0]);
+                        $("#mostrar_seleccion_apellidos").val(ui.item.value.split("-")[1].split(" ")[1]);
+                        $("#mostrar_seleccion_DNI").val(ui.item.value.split("-")[0]);
+                        
+                        $.ajax({
+                        url: "AJAX.php",
+                        method: "POST",
+                        data:{
+                            mode: "puntos_alumno_reserva_admin",
+                            DNI_alumno:DNI_alumno
+                        },
+                        success:function(data){
+                            let clases_alumno=data;
+                            $("#alumno_puntos").text(clases_alumno);
 
-                        $(".puntos_prueba").text(clases_alumno);
-                        $(".puntos_prueba-1").text(parseInt($("#alumno_puntos").text())-1);
+                            $(".puntos_prueba").text(clases_alumno);
+                            $(".puntos_prueba-1").text(parseInt($("#alumno_puntos").text())-1);
 
-                        if((clases_alumno-1)<0){
-                            $(".puntos_prueba-1").addClass("text-danger");
-                            $("#btn_pagar").prop("disabled", true);
-                            $("#error_pago").removeClass("d-none");
-                        }else{
-                            $(".puntos_prueba-1").removeClass("text-danger");
-                            $("#btn_pagar").prop("disabled", false);
-                            $("#error_pago").addClass("d-none");
+                            if((clases_alumno-1)<0){
+                                $(".puntos_prueba-1").addClass("text-danger");
+                                $("#btn_pagar").prop("disabled", true);
+                                $("#error_pago").removeClass("d-none");
+                            }else{
+                                $(".puntos_prueba-1").removeClass("text-danger");
+                                $("#btn_pagar").prop("disabled", false);
+                                $("#error_pago").addClass("d-none");
+                            }
                         }
+                        })
                     }
-                })
-                }
                 });
             } );
 
@@ -185,6 +185,7 @@ require_once "../view/Templates/inicio.inc.php";
                     
                     // Obtener el nombre del día de la semana
                     dayName= daysOfWeek[dateObject.getDay()];
+                    let mes = dateObject.getMonth() + 1;
                     $("#dia_selected").text(dayName);
                     let id_profesor=$("#profesor_selected").text();
 
@@ -195,6 +196,7 @@ require_once "../view/Templates/inicio.inc.php";
                             mode: "muestra_horas",
                             id_profesor: id_profesor,
                             dia: dayName,
+                            mes: mes,
                             fecha:dateText
                         },
                         success:function(data){

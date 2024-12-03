@@ -141,7 +141,7 @@ abstract class usuario{
                         $query='INSERT into clientes VALUES ("'.$alumno->id_cliente.'" ,"'.$alumno->nombre.'", "'.$alumno->apellidos.'", "'.$alumno->DNI.'", 0, "'.$alumno->getCorreo().'", "'.password_hash($alumno->getPass(), PASSWORD_DEFAULT).'");';
                     }elseif($tipo=="Profesor"){
                         $profesor=new profesor($nombre, $apellidos, $correo, $pass, $DNI);
-                        $query='INSERT into profesores VALUES ("'.$profesor->id_profesor.'" ,"'.$profesor->nombre.'", "'.$profesor->apellidos.'", "'.$profesor->getCorreo().'", "'.password_hash($profesor->getPass(), PASSWORD_DEFAULT).'");';
+                        $query='INSERT into profesores VALUES ("'.$profesor->id_profesor.'" ,"'.$profesor->nombre.'", "'.$profesor->apellidos.'", "'.$profesor->DNI.'", "'.$profesor->getCorreo().'", "'.password_hash($profesor->getPass(), PASSWORD_DEFAULT).'");';
                     }else{
                         return "Error de Servidor";
                     }

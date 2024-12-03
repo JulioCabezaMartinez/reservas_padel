@@ -25,7 +25,7 @@ require_once "../view/Templates/inicio.inc.php";
             </a>
 
             <a href="./actions_profesor.php?action=reservas">
-                <button class="btn btn-outline-success"><i class="fa-regular fa-calendar-plus"></i> Crear Horario</button>
+                <button class="btn btn-outline-success"><i class="fa-regular fa-calendar-plus"></i> Ver Reservas</button>
             </a>
         </div>
         <hr>

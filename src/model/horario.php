@@ -46,8 +46,13 @@ class horario{
     }
 
     public static function selectHorarioProfesorFecha(mysqli $connection, $id_profesor, $fecha, $mes){
-        $result=$connection->query("SELECT id_horario, hora_inicio, hora_final from horarios where id_profesor='".$id_profesor."' AND fecha='".$fecha."' AND mes=".$mes.";");
-
+        $mes_escapado = $connection->real_escape_string($mes);
+        $result = $connection->query("SELECT id_horario, hora_inicio, hora_final 
+                                      FROM horarios 
+                                      WHERE id_profesor='" . $id_profesor . "' 
+                                      AND fecha='" . $fecha . "' 
+                                      AND JSON_CONTAINS(mes, '\"$mes_escapado\"');");
+        
         if($result!=false){
             $lista_horarios=[];
             $linea=$result->fetch_object();
@@ -137,7 +142,7 @@ class horario{
     }
 
     public static function insertHorario(mysqli $connection, $id_profesor, $fecha, $hora_inicio, $hora_final, $meses){
-        $result=$connection->query("INSERT INTO horarios (id_profesor, fecha, hora_inicio, hora_final, meses) VALUES ('".$id_profesor."', '".$fecha."', '".$hora_inicio."', '".$hora_final."', '".json_encode($meses)."');");
+        $result=$connection->query("INSERT INTO horarios (id_profesor, fecha, hora_inicio, hora_final, mes) VALUES ('".$id_profesor."', '".$fecha."', '".$hora_inicio."', '".$hora_final."', '".json_encode($meses)."');");
 
         if($result!=false){
             return true;

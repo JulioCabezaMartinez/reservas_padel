@@ -2,6 +2,12 @@
 
 session_start();
 
+// Prevenir caché del navegador
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Pragma: no-cache");
+header("Expires: 0");
+
+
 if (!empty($_SESSION)) {
     if($_SESSION["tipo_usuario"]=="Administrador"){
         header("Location:/src/controller/actions_administrador.php?action=botones");
@@ -25,6 +31,7 @@ if (!empty($_SESSION)) {
         die();
     }
 }
+
 $titulo="login";
 require_once "../view/Templates/inicio.inc.php";
 
@@ -34,6 +41,12 @@ require_once "../view/Templates/inicio.inc.php";
 
 <body>
     <?php
+    if(isset($_GET['vuelta'])){
+        include '/src/model/usuario.php';
+        // usuario::logOut();
+        // header("Location:/src/view/login.php");
+        // exit();
+    }
 
     if (isset($_GET['action'])) {
         if ($_GET['action'] == 1) { //Fallo de Login.
@@ -259,9 +272,15 @@ require_once "../view/Templates/inicio.inc.php";
             });
 
             $('#btn_cerrar_correo').on('click', function() {
-                window.location.href = "recuperar_pass.php?correo="+correo;
+                $.ajax({
+                    url: '/src/controller/AJAX.php',
+                    method: 'POST',
+                    data: { mode: 'set_recuperacion', recuperacion: 1 },
+                    success: function(response) {
+                        window.location.href = "recuperar_pass.php?correo=" + correo;
+                    }
+                });
             });
-
         });
     </script>
 </body>

@@ -147,7 +147,8 @@ require_once "../view/Templates/inicio.inc.php";
                             fecha: dateText
                         },
                         success: function(data) {
-                            $("#horas").html(data);
+                            console.log(data);
+                            // $("#horas").html(data);
                         }
                     });
                 }

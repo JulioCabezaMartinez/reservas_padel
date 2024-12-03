@@ -26,7 +26,9 @@ if(isset($_GET["action"])){
         break;
     
         case 'reservas':
+            $lista_profesores=profesor::selectAllProfesores($connection);
             $lista_reservas=reserva::selectReservasAll($connection);
+            $lista_alumnos=cliente::selectAllClientes($connection);
     
             include '../view/reservas_realizadas.php';
         break;
