@@ -156,7 +156,7 @@ if(isset($_POST["mode"])){
         break;
 
         case "modificacion_reserva":
-            $reserva=reserva::updateReserva($connection, $_POST["tipo_update"], $_POST['id_reserva'], id_horario:$_POST['id_horario'], fecha:$_POST['fecha']);
+            $reserva=reserva::updateReserva($connection, $_POST["tipo_update"], $_POST['id_reserva'], id_horario:$_POST['id_horario'], fecha:$_POST['fecha'], id_cliente:$_POST['id_alumno'], id_profesor:$_POST['id_profesor']);
 
             if($reserva){
                 echo "Modificación Correcta";

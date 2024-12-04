@@ -24,7 +24,7 @@ require_once "../view/Templates/inicio.inc.php";
                         <div data-mdb-input-init class="form-outline mb-4">
                             <div id="alumno_profesor">
                                 <label for="profesor_modal_creacion">Profesor: </label>
-                                <select name="profesor" id="profesor_modal_creacion">
+                                <select name="profesor" id="profesor_modal">
                                     <option value="" selected>--Elija un profesor--</option>
                                     <?php
                                     foreach ($lista_profesores as $profesor) {
@@ -37,9 +37,10 @@ require_once "../view/Templates/inicio.inc.php";
                                 <br><br>
                                 <label for="">Indique el nombre o el DNI del alumno: </label>
                                 <input id="alumnos">
+                                <input type="hidden" id="id_alumno_hidden">
                                 <br><br>
                             </div>
-                            <div id="dia">
+                            <div id="dia" class="d-none">
 
                                 <div id="text_horario" class="d-flex flex-wrap">
                                     Fecha:
@@ -61,8 +62,10 @@ require_once "../view/Templates/inicio.inc.php";
                                 <span id="dia_selected" class="d-none"></span>
                             </div>
 
+                            <span id="error_modal" class="d-none" style="color: red;">Se deben rellenar todos los campos</span>
+
                         </div>
-                        <button id="btn_cerrar_modificar" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button id="btn_cerrar_modificar_reserva" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                         <button id="btn_guardar_modificar_reserva" type="button" class="btn btn-primary w-50" data-dismiss="modal">Guardar</button>
                     </form>
                 </div>
@@ -138,6 +141,58 @@ require_once "../view/Templates/inicio.inc.php";
     <script>
         $(document).ready(function() {
 
+            // Profesor
+
+            $("#profesor_modal").change(function(){
+                //DatePicker
+                const daysOfWeek = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
+                var dayName;
+                $("#datepicker").datepicker({
+                    onSelect: function(dateText, inst) {
+                        $("#fecha_selected").text(dateText);
+
+                        $("#hora_text").val("");
+
+                        let dateParts = dateText.split("/");
+                        let dateObject = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]); // Año, Mes, Día
+
+                        // Obtener el nombre del día de la semana
+                        dayName = daysOfWeek[dateObject.getDay()];
+                        let mes = dateObject.getMonth() + 1;
+                        $("#dia_selected").text(dayName);
+                        let id_profesor = $("#profesor_modal").val();
+
+                        $.ajax({
+                            url: "AJAX.php",
+                            method: "POST",
+                            data: {
+                                mode: "muestra_horas",
+                                id_profesor: id_profesor,
+                                dia: dayName,
+                                mes: mes,
+                                fecha: dateText
+                            },
+                            success: function(data) {
+                                $("#horas").html(data);
+                            }
+                        });
+                    }
+                });
+
+                $("#dia").removeClass("d-none");
+            });
+
+            $(document).on('click', '.btn_hora', function() {
+                let hora = $(this).text();
+                $("#hora_selected").text(hora);
+                $("#id_horario").text($(this).attr("id").split("_")[2]);
+
+                $("#fecha_text").val($("#fecha_selected").text());
+                $("#hora_text").val($("#hora_selected").text());
+
+            });
+
+            // Alumno
             //Autocomplete de JQuery
             let alumnos = <?php
                             $nombres_alumnos = [];
@@ -147,14 +202,81 @@ require_once "../view/Templates/inicio.inc.php";
                             echo json_encode($nombres_alumnos);
                             ?>;
 
-            
             $("#alumnos").autocomplete({
                 source: alumnos
             });
-            
 
+            $("#alumnos").change(function(){
+                let DNI_alumno=$(this).val().split("-")[0];
+                $.ajax({
+                    url: "AJAX.php",
+                    method: "POST",
+                    data:{
+                        mode: "recoger_id_alumno_admin",
+                        DNI_alumno:DNI_alumno
+                    },
+                    success:function(data){
+                        $("#id_alumno_hidden").val(data);
+                    }
+                })
+                
+            });
+
+            var id_reserva;
+            // Boton Guardar
+            $("#btn_guardar_modificar_reserva").click(function(){
+                let id_profesor=$("#profesor_modal").val();
+                let id_alumno=$("#id_alumno_hidden").val();
+                let id_horario=$("#id_horario").text();
+                let fecha=$("#fecha_selected").text();
+
+                if(id_profesor=="" || id_alumno=="" || id_horario=="" || fecha==""){
+                    $("#error_modal").removeClass("d-none");
+                }else{
+                    $.ajax({
+                        url: "AJAX.php",
+                        method: "POST",
+                        data:{
+                            mode: "modificacion_reserva",
+                            tipo_update: "todo",
+                            id_profesor:id_profesor,
+                            id_alumno:id_alumno,
+                            id_horario:id_horario,
+                            fecha:fecha,
+                            id_reserva:id_reserva
+                        },
+                        success:function(data){
+                            if(data=='Modificación Correcta'){
+                                Swal.fire({
+                                title: "Reserva Realizada",
+                                text: "La modificación se ha realizado con exito",
+                                icon: "success"
+                                }).then((result) => {
+                                    location.reload();
+                                });
+                            }else{
+                                Swal.fire({
+                                title: "Error Servidor",
+                                text: "Ha habido un error en el servidor y no se ha completado la modificación",
+                                icon: "error"
+                                }).then((result) => {
+                                    location.reload();
+                                });
+                            }
+                        }
+                    })
+                }
+            });
+
+            //Mostrar Modal
             $(document).on("click", ".btn_modificar_reserva", function() {
+                id_reserva=$(this).attr("id").split("_")[1];
                 $("#modal_modificar_reserva").modal("show");
+            });
+
+            //Cerrar Modal
+            $("#btn_cerrar_modificar_reserva").click(function(){
+                $("#modal_modificar_reserva").modal("hide");
             });
         });
     </script>

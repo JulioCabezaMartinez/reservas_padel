@@ -132,6 +132,10 @@ class reserva{
             case "alumno_modifica":
                 $query= "UPDATE reservas SET id_horario=".$id_horario.", fecha='".$fecha."', acepta_alumno=1 WHERE id_reserva=".$id_reserva.";";
             break;
+
+            case "todo":
+                $query=  "UPDATE reservas SET id_profesor='".$id_profesor."', id_cliente='".$id_cliente."', id_horario=".$id_horario.", fecha='".$fecha."' WHERE id_reserva=".$id_reserva.";";
+            break;
         }
 
         $result=$connection->query($query);
@@ -139,7 +143,7 @@ class reserva{
         if($result!=false){
             return true;
         }else{
-            return false;
+            return mysqli_error($connection);
         }
     }
 
