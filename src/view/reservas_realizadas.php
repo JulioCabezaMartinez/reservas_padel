@@ -179,6 +179,127 @@ require_once "../view/Templates/inicio.inc.php";
                     }
                 });
 
+                // AL SELECCIONAR EL PROFESOR SE AJUSTA LA PRIMERA ENTRADA DE LA BUSQUEDA DE CLASE.
+                let targetDate = new Date();
+                $("#datepicker").datepicker("setDate", targetDate);
+
+                let formattedDate = $.datepicker.formatDate("dd/mm/yy", targetDate);
+                let mes = targetDate.getMonth() + 1;
+                dayName = daysOfWeek[targetDate.getDay()];
+                $("#datepicker").datepicker("option", "onSelect")(formattedDate, null);
+
+                let id_profesor = $("#profesor_modal").val();
+
+                $.ajax({
+                    url: "AJAX.php",
+                    method: "POST",
+                    data: {
+                        mode: "muestra_horas",
+                        id_profesor: id_profesor,
+                        dia: dayName,
+                        mes: mes,
+                        fecha: formattedDate
+                    },
+                    success: function(data) {
+                        $("#horas").html(data);
+                    }
+                });
+
+                // COLOREAR CASILLAS
+                let dias_horario=[];
+
+                for(i=1; i<13; i++){
+                    dias_horario[i]=[];
+                    for(j=0; j<7; j++){
+                        dias_horario[i][j]=false;
+                    }
+                }
+                
+                const daysOfWeekMap = {
+                    "Domingo": 0,
+                    "Lunes": 1,
+                    "Martes": 2,
+                    "Miercoles": 3,
+                    "Jueves": 4,
+                    "Viernes": 5,
+                    "Sábado": 6
+                };
+
+                $.ajax({
+                    url: "AJAX.php",
+                    method: "POST",
+                    data:{
+                        mode: "colores_dias",
+                        id_profesor: id_profesor
+                    },
+                    success:function(data){
+                        const horarios = JSON.parse(data);
+
+
+                        horarios.forEach(horario=>{
+                            const dayIndex = daysOfWeekMap[horario.dia];
+                            let mesesArray = JSON.parse(horario.mes); // Convierte la cadena en un array
+                            
+                            mesesArray.forEach(mesIndex=>{
+                                dias_horario[mesIndex][dayIndex]=true;
+                            });
+                        });
+
+                        // Actualizamos la configuración del datepicker con los nuevos datos de horarios
+
+                        // Objeto para almacenar los días completos
+                        let diasCompletos = {};
+                        $("#datepicker").datepicker("option", "beforeShowDay", function(date, inst) {
+                            const dayOfWeek = date.getDay();
+                            let monthOftheYear=(date.getMonth() + 1);
+
+                            let dateObject = new Date(date.getFullYear(), date.getMonth() - 1, date.getDay()); // Año, Mes, Día
+
+                            // Obtener el día, mes y año
+                            let day = dateObject.getDate();  // Día del mes (1-31)
+                            let month = dateObject.getMonth() + 1;  // Mes (0-11, por lo que sumamos 1)
+                            let year = dateObject.getFullYear();  // Año completo (e.g. 2024)
+
+                            // Formatear en día/mes/año
+                            let formattedDate = `${day < 10 ? '0' + day : day}/${month < 10 ? '0' + month : month}/${year}`;
+
+                            // // Obtener el nombre del día de la semana
+                            // let dayName = daysOfWeek[dateObject.getDay()];
+
+                            // let diaCompleto;
+                            // $.ajax({
+                            //     url: "AJAX.php",
+                            //     method: "POST",
+                            //     data:{
+                            //         mode: "contar_reservas",
+                            //         nombre_dia: dayName,
+                            //         fecha: formattedDate
+                            //     },
+                            //     success:function(data){
+                            //         if(data){
+                            //             diaCompleto=true;
+                            //         }else{
+                            //             diaCompleto=false;
+                            //         }
+                            //     }
+                            // });
+
+                            // Comprobar si el día tiene horario
+
+                            if (dias_horario[monthOftheYear][dayOfWeek]) {
+                                return [true, "has-schedule", "Día con horario asignado"];
+                            } else {
+                                return [true, "", "Día sin horario asignado"];
+                            }
+                            
+
+                        });
+
+                        // Inicializar el DatePicker después de cargar los datos
+                        $("#datepicker").datepicker("refresh");
+                    }
+                });
+
                 $("#dia").removeClass("d-none");
             });
 

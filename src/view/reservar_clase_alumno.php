@@ -17,7 +17,7 @@ require_once "../view/Templates/inicio.inc.php";
     ?>
 
     <main>
-        <h1>Bienvenid@, <span></span></h1>
+        <h1>Bienvenid@, <span><?php echo $_SESSION["nombre"] ?></span></h1>
         <div>
             <h3>Desde aqui puede reservar una clase de padel con alguno de nuestros profesores:</h3>
 
@@ -201,7 +201,14 @@ require_once "../view/Templates/inicio.inc.php";
 
                 // COLOREAR CASILLAS
                 let dias_horario=[];
-                let meses_horario=[];
+
+                for(i=1; i<13; i++){
+                    dias_horario[i]=[];
+                    for(j=0; j<7; j++){
+                        dias_horario[i][j]=false;
+                    }
+                }
+                
                 const daysOfWeekMap = {
                     "Domingo": 0,
                     "Lunes": 1,
@@ -221,17 +228,15 @@ require_once "../view/Templates/inicio.inc.php";
                     },
                     success:function(data){
                         const horarios = JSON.parse(data);
+
+
                         horarios.forEach(horario=>{
                             const dayIndex = daysOfWeekMap[horario.dia];
                             let mesesArray = JSON.parse(horario.mes); // Convierte la cadena en un array
-                            let mesIndex = parseInt(mesesArray[0]); // Toma el primer elemento y conviértelo a número
-                            if (!isNaN(mesIndex)) {
-                                meses_horario[mesIndex] = true; // Marca el mes como válido
-                            }
-                            console.log(meses_horario);
-                            if (dayIndex !== undefined){
-                                dias_horario[dayIndex]=true;
-                            }
+                            
+                            mesesArray.forEach(mesIndex=>{
+                                dias_horario[mesIndex][dayIndex]=true;
+                            });
                         });
 
                         // Actualizamos la configuración del datepicker con los nuevos datos de horarios
@@ -240,7 +245,7 @@ require_once "../view/Templates/inicio.inc.php";
                         let diasCompletos = {};
                         $("#datepicker").datepicker("option", "beforeShowDay", function(date, inst) {
                             const dayOfWeek = date.getDay();
-                            let monthOftheYear=date.getMonth();
+                            let monthOftheYear=(date.getMonth() + 1);
 
                             let dateObject = new Date(date.getFullYear(), date.getMonth() - 1, date.getDay()); // Año, Mes, Día
 
@@ -275,11 +280,12 @@ require_once "../view/Templates/inicio.inc.php";
 
                             // Comprobar si el día tiene horario
 
-                            if (dias_horario[dayOfWeek] && meses_horario[monthOftheYear+1]) {
+                            if (dias_horario[monthOftheYear][dayOfWeek]) {
                                 return [true, "has-schedule", "Día con horario asignado"];
                             } else {
                                 return [true, "", "Día sin horario asignado"];
                             }
+                            
 
                         });
 
