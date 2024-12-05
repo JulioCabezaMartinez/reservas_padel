@@ -269,26 +269,26 @@ if(isset($_POST["mode"])){
             
         break;
 
-        // case "colores_dias":
+        case "colores_dias":
 
-        //     $lista_horarios=horario::selectHorarioProfesor($connection, $_POST['id_profesor']);
+            $lista_horarios=horario::selectHorarioProfesor($connection, $_POST['id_profesor']);
 
-        //     $json_response = json_encode($lista_horarios);
-        //     echo $json_response;
-        // break;
+            $json_response = json_encode($lista_horarios);
+            echo $json_response;
+        break;
 
-        // case "contar_reservas":
+        case "contar_reservas":
 
-        //     $nReservas=reserva::cuentaReservasDia($connection, $_POST['fecha']);
-        //     $nHorario=horario::cuentaHorarioFecha($connection, $_POST['nombre_dia']);
+            $nReservas=reserva::cuentaReservasDia($connection, $_POST['fecha']);
+            $nHorario=horario::cuentaHorarioFecha($connection, $_POST['nombre_dia']);
 
-        //     if($nHorario==$nReservas){
-        //         echo true;
-        //     }else{
-        //         echo false;
-        //     }
+            if($nHorario==$nReservas){
+                echo true;
+            }else{
+                echo false;
+            }
 
-        // break;
+        break;
 
 
         case "recuperar_pass":
